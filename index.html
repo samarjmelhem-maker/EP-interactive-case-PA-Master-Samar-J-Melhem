@@ -1,0 +1,2376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EP Cases Module — Master in Pharmacy Administration · UJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --purple-deep:#3B1E6E;
+    --purple:#5B2BA8;
+    --purple-light:#8B5CF6;
+    --purple-pale:#EDE7F8;
+    --turq:#16BAC5;
+    --turq-deep:#0E8C95;
+    --turq-pale:#D6F4F6;
+    --blue:#2A5BD7;
+    --blue-deep:#1A3B95;
+    --blue-pale:#E1EAFB;
+    --ink:#1B1330;
+    --muted:#6B6585;
+    --line:#E5DEF1;
+    --warn:#E8654F;
+    --warn-pale:#FFE0D6;
+    --gold:#F4B942;
+    --gold-pale:#FFF8E8;
+    --green:#2E9E6E;
+    --green-pale:#D6F2E5;
+    --bg-soft:#FAF8FE;
+    --shadow-sm:0 4px 14px rgba(59,30,110,0.08);
+    --shadow-md:0 10px 30px rgba(59,30,110,0.12);
+    --shadow-lg:0 25px 60px rgba(59,30,110,0.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Inter',sans-serif;
+    background:linear-gradient(135deg,#F4F1FB 0%,#E8F5F7 100%);
+    color:var(--ink);line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* TOP BAR */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;height:64px;
+    background:rgba(255,255,255,0.94);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 24px;z-index:100;
+  }
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand-mark{
+    width:40px;height:40px;border-radius:12px;
+    background:linear-gradient(135deg,var(--turq) 0%,var(--purple) 100%);
+    display:flex;align-items:center;justify-content:center;
+    color:white;font-weight:800;font-family:'Fraunces',serif;font-size:16px;
+    box-shadow:var(--shadow-sm);
+  }
+  .brand-text .t1{font-weight:700;font-size:13px;color:var(--ink);display:block}
+  .brand-text .t2{font-size:11px;color:var(--muted);font-weight:500}
+  .topbar-actions{display:flex;align-items:center;gap:10px}
+  .btn{
+    border:none;cursor:pointer;font-family:inherit;font-weight:600;
+    border-radius:10px;padding:9px 14px;font-size:12.5px;
+    display:inline-flex;align-items:center;gap:6px;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .btn-ghost{background:transparent;color:var(--purple)}
+  .btn-ghost:hover{background:var(--purple-pale)}
+  .btn-primary{
+    background:linear-gradient(135deg,var(--purple) 0%,var(--purple-light) 100%);
+    color:white;box-shadow:var(--shadow-sm);
+  }
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
+  .btn-turq{
+    background:linear-gradient(135deg,var(--turq-deep) 0%,var(--turq) 100%);
+    color:white;box-shadow:var(--shadow-sm);
+  }
+  .btn-turq:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
+  .btn-warn{
+    background:linear-gradient(135deg,#C04020 0%,var(--warn) 100%);
+    color:white;
+  }
+  .btn-success{
+    background:linear-gradient(135deg,#1F7E54 0%,var(--green) 100%);
+    color:white;
+  }
+
+  /* PROGRESS BAR */
+  .progress-wrap{
+    position:fixed;top:64px;left:0;right:0;height:3px;
+    background:rgba(91,43,168,0.08);z-index:99;
+  }
+  .progress-bar{
+    height:100%;
+    background:linear-gradient(90deg,var(--purple) 0%,var(--turq) 100%);
+    width:0%;transition:width .4s ease;
+  }
+
+  /* HERO */
+  .hero{
+    margin-top:64px;padding:80px 28px 60px;
+    background:
+      radial-gradient(circle at 80% 20%,rgba(22,186,197,.18) 0%,transparent 55%),
+      radial-gradient(circle at 20% 80%,rgba(139,92,246,.22) 0%,transparent 55%),
+      linear-gradient(135deg,var(--purple-deep) 0%,var(--purple) 100%);
+    color:white;text-align:center;position:relative;overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;top:-100px;right:-100px;
+    width:400px;height:400px;border-radius:50%;
+    background:radial-gradient(circle,rgba(22,186,197,.15) 0%,transparent 70%);
+  }
+  .hero-eyebrow{
+    display:inline-block;background:rgba(255,255,255,0.12);
+    color:var(--turq);font-size:12px;font-weight:600;
+    padding:7px 14px;border-radius:30px;letter-spacing:1.5px;
+    text-transform:uppercase;margin-bottom:18px;
+    border:1px solid rgba(22,186,197,0.4);
+  }
+  .hero h1{
+    font-family:'Fraunces',serif;font-weight:700;
+    font-size:54px;line-height:1.05;margin-bottom:14px;
+    letter-spacing:-1px;
+  }
+  .hero h1 .accent{color:var(--turq);font-style:italic}
+  .hero-sub{
+    font-size:18px;color:rgba(255,255,255,0.85);
+    max-width:720px;margin:0 auto;line-height:1.5;
+  }
+  .hero-stats{
+    margin-top:30px;display:flex;justify-content:center;gap:20px;
+    flex-wrap:wrap;position:relative;z-index:2;
+  }
+  .hero-stat{
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:14px;padding:14px 24px;backdrop-filter:blur(10px);
+  }
+  .hero-stat .n{
+    font-family:'Fraunces',serif;font-size:32px;font-weight:700;
+    color:var(--turq);line-height:1;display:block;
+  }
+  .hero-stat .l{font-size:11px;color:rgba(255,255,255,0.85);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-top:4px;display:block}
+
+  /* MAIN */
+  .main{max-width:1100px;margin:0 auto;padding:50px 24px 100px}
+
+  /* MODULE NAV */
+  .mod-nav{
+    display:flex;gap:10px;margin-bottom:30px;
+    background:white;padding:8px;border-radius:14px;
+    box-shadow:var(--shadow-sm);border:1px solid var(--line);
+    overflow-x:auto;
+  }
+  .mod-nav-btn{
+    border:none;background:transparent;
+    padding:12px 18px;border-radius:10px;cursor:pointer;
+    font-family:inherit;font-weight:600;font-size:13px;
+    color:var(--muted);transition:all .15s;
+    white-space:nowrap;
+  }
+  .mod-nav-btn:hover{color:var(--purple);background:var(--purple-pale)}
+  .mod-nav-btn.active{
+    background:linear-gradient(135deg,var(--purple) 0%,var(--purple-light) 100%);
+    color:white;box-shadow:var(--shadow-sm);
+  }
+  .mod-nav-btn .badge{
+    background:rgba(255,255,255,0.25);
+    padding:2px 7px;border-radius:30px;font-size:11px;margin-left:6px;
+  }
+  .mod-nav-btn:not(.active) .badge{
+    background:var(--purple-pale);color:var(--purple);
+  }
+
+  /* SECTION VISIBILITY */
+  .module{display:none;animation:fadeIn .35s ease}
+  .module.active{display:block}
+  @keyframes fadeIn{
+    from{opacity:0;transform:translateY(8px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+
+  /* MODULE HEADER */
+  .mod-head{
+    background:white;border-radius:18px;padding:26px 30px;
+    margin-bottom:22px;box-shadow:var(--shadow-sm);
+    border:1px solid var(--line);position:relative;overflow:hidden;
+  }
+  .mod-head::before{
+    content:"";position:absolute;top:0;left:0;height:5px;width:100%;
+    background:linear-gradient(90deg,var(--purple) 0%,var(--turq) 100%);
+  }
+  .mod-head h2{
+    font-family:'Fraunces',serif;font-weight:700;
+    font-size:30px;color:var(--purple-deep);margin-bottom:8px;
+    letter-spacing:-.5px;
+  }
+  .mod-head p{font-size:15px;color:var(--muted);max-width:780px}
+  .mod-head .meta{
+    display:flex;gap:14px;margin-top:14px;flex-wrap:wrap;
+  }
+  .mod-head .meta-pill{
+    background:var(--purple-pale);color:var(--purple);
+    padding:5px 12px;border-radius:30px;font-size:11px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.5px;
+  }
+  .mod-head .meta-pill.turq{background:var(--turq-pale);color:var(--turq-deep)}
+  .mod-head .meta-pill.gold{background:var(--gold-pale);color:#8B6914}
+  .mod-head .meta-pill.warn{background:var(--warn-pale);color:#A03A20}
+
+  /* CASE CARD */
+  .case-card{
+    background:white;border-radius:18px;
+    box-shadow:var(--shadow-sm);border:1px solid var(--line);
+    margin-bottom:26px;overflow:hidden;
+  }
+  .case-banner{
+    padding:24px 30px;
+    background:linear-gradient(135deg,var(--purple-pale) 0%,var(--turq-pale) 100%);
+    border-bottom:1px solid var(--line);
+  }
+  .case-banner h3{
+    font-family:'Fraunces',serif;font-size:26px;font-weight:700;
+    color:var(--purple-deep);margin-bottom:6px;letter-spacing:-.3px;
+  }
+  .case-banner .case-meta{
+    display:flex;gap:12px;font-size:12px;color:var(--muted);
+    flex-wrap:wrap;align-items:center;
+  }
+  .case-meta .dot{width:4px;height:4px;border-radius:50%;background:var(--muted)}
+  .case-body{padding:28px 32px}
+
+  .vignette{
+    background:linear-gradient(180deg,#FFFAEC 0%,#FFF6CC 100%);
+    border-left:5px solid var(--gold);border-radius:8px 14px 14px 8px;
+    padding:20px 26px;margin:18px 0;
+    box-shadow:inset 0 0 0 1px rgba(184,134,11,0.1);
+  }
+  .vignette-label{
+    display:inline-block;background:#B8860B;color:white;
+    font-size:10px;font-weight:700;padding:3px 10px;border-radius:5px;
+    letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;
+  }
+  .vignette p{
+    font-family:'Fraunces',serif;font-size:15.5px;color:#3D2E00;
+    line-height:1.6;margin-bottom:8px;
+  }
+  .vignette p:last-child{margin-bottom:0}
+  .vignette strong{font-family:'Inter',sans-serif;color:#1F1A0A;font-weight:700}
+
+  .case-body h4{
+    font-size:18px;font-weight:700;color:var(--purple-deep);
+    margin:24px 0 12px;display:flex;align-items:center;gap:10px;
+  }
+  .case-body h4::before{
+    content:"";width:6px;height:22px;background:var(--purple);
+    border-radius:3px;display:inline-block;
+  }
+  .case-body h4.turq::before{background:var(--turq)}
+  .case-body h4.warn::before{background:var(--warn)}
+
+  .case-body p{font-size:14.5px;margin-bottom:12px;color:var(--ink)}
+  .case-body ul,.case-body ol{margin:8px 0 14px 22px}
+  .case-body li{font-size:14.5px;margin-bottom:6px;color:var(--ink)}
+  .case-body strong{color:var(--purple-deep);font-weight:700}
+
+  /* DECISION POINTS */
+  .decision-points{
+    background:var(--bg-soft);border-radius:12px;
+    padding:18px 22px;margin:18px 0;
+    border:1px solid var(--line);
+  }
+  .decision-points h5{
+    font-size:14px;font-weight:700;color:var(--purple-deep);
+    margin-bottom:10px;letter-spacing:.3px;
+  }
+  .decision-points ol{margin:0 0 0 22px}
+  .decision-points li{font-size:13.5px;margin-bottom:5px;color:var(--ink)}
+
+  /* QUESTION CONTAINER */
+  .q-container{
+    background:white;border-radius:14px;
+    border:1px solid var(--line);
+    margin:18px 0;overflow:hidden;
+  }
+  .q-header{
+    padding:14px 20px;
+    background:linear-gradient(90deg,var(--purple-pale) 0%,var(--turq-pale) 100%);
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .q-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;font-weight:700;color:var(--purple);
+    background:white;padding:5px 11px;border-radius:8px;
+  }
+  .q-type{
+    font-size:11px;font-weight:700;color:var(--turq-deep);
+    text-transform:uppercase;letter-spacing:1px;
+  }
+  .q-body{padding:22px 26px}
+  .q-stem{
+    font-size:15.5px;color:var(--ink);font-weight:500;
+    margin-bottom:18px;line-height:1.6;
+  }
+
+  /* MCQ OPTIONS */
+  .mcq-options{display:flex;flex-direction:column;gap:8px}
+  .mcq-option{
+    display:flex;gap:12px;align-items:flex-start;
+    padding:13px 16px;border:1.5px solid var(--line);
+    border-radius:10px;cursor:pointer;
+    background:white;transition:all .15s;
+  }
+  .mcq-option:hover{
+    border-color:var(--purple);background:var(--purple-pale);
+  }
+  .mcq-option.selected{
+    border-color:var(--purple);background:var(--purple-pale);
+  }
+  .mcq-option.correct{
+    border-color:var(--green);background:var(--green-pale);
+  }
+  .mcq-option.incorrect{
+    border-color:var(--warn);background:var(--warn-pale);
+  }
+  .mcq-option.disabled{cursor:default}
+  .mcq-letter{
+    width:30px;height:30px;border-radius:8px;
+    background:var(--purple-pale);color:var(--purple);
+    font-weight:700;font-family:'JetBrains Mono',monospace;font-size:13px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .mcq-option.correct .mcq-letter{background:var(--green);color:white}
+  .mcq-option.incorrect .mcq-letter{background:var(--warn);color:white}
+  .mcq-option.selected:not(.correct):not(.incorrect) .mcq-letter{
+    background:var(--purple);color:white;
+  }
+  .mcq-text{font-size:14px;color:var(--ink);line-height:1.5;flex:1}
+
+  /* DRAG MATCH */
+  .match-container{
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;
+    margin:14px 0;
+  }
+  .match-pool, .match-targets{
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .match-col-title{
+    font-size:11px;font-weight:700;color:var(--muted);
+    text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;
+  }
+  .match-item{
+    background:white;border:2px solid var(--line);
+    border-radius:10px;padding:12px 14px;
+    font-size:13.5px;color:var(--ink);
+    cursor:grab;transition:all .15s;
+    user-select:none;
+  }
+  .match-item:hover{border-color:var(--purple);transform:translateY(-1px);box-shadow:var(--shadow-sm)}
+  .match-item.dragging{opacity:.5;cursor:grabbing}
+  .match-item.placed{background:var(--purple-pale);border-color:var(--purple);font-weight:600}
+  .match-item.selected{background:var(--turq-pale);border-color:var(--turq);font-weight:600;box-shadow:0 0 0 3px rgba(22,186,197,0.2)}
+  .match-target{
+    background:var(--bg-soft);border:2px dashed var(--purple);
+    border-radius:10px;padding:14px 16px;min-height:54px;
+    display:flex;align-items:center;
+    transition:all .15s;
+  }
+  .match-target.over{background:var(--purple-pale);border-style:solid}
+  .match-target.filled{background:white;border-style:solid}
+  .match-target-label{
+    font-size:13px;color:var(--ink);font-weight:600;
+    margin-right:8px;
+  }
+  .match-target.correct{border-color:var(--green);background:var(--green-pale)}
+  .match-target.incorrect{border-color:var(--warn);background:var(--warn-pale)}
+
+  /* FILL IN */
+  .fill-input{
+    width:100%;padding:12px 16px;
+    border:2px solid var(--line);border-radius:10px;
+    font-family:inherit;font-size:14px;
+    transition:border-color .15s;
+  }
+  .fill-input:focus{outline:none;border-color:var(--purple)}
+  .fill-input.correct{border-color:var(--green);background:var(--green-pale)}
+  .fill-input.incorrect{border-color:var(--warn);background:var(--warn-pale)}
+
+  /* TRUE/FALSE */
+  .tf-options{display:flex;gap:10px}
+  .tf-option{
+    flex:1;padding:14px;border:2px solid var(--line);
+    border-radius:10px;background:white;cursor:pointer;
+    text-align:center;font-weight:700;font-size:14px;
+    transition:all .15s;color:var(--ink);
+  }
+  .tf-option:hover{border-color:var(--purple);background:var(--purple-pale)}
+  .tf-option.selected{border-color:var(--purple);background:var(--purple-pale)}
+  .tf-option.correct{border-color:var(--green);background:var(--green-pale);color:#1F7E54}
+  .tf-option.incorrect{border-color:var(--warn);background:var(--warn-pale);color:#A03A20}
+
+  /* SUBMIT BUTTON */
+  .q-actions{
+    margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;
+  }
+  .btn-submit{
+    background:linear-gradient(135deg,var(--purple) 0%,var(--purple-light) 100%);
+    color:white;border:none;padding:11px 22px;
+    border-radius:10px;font-family:inherit;font-weight:600;
+    font-size:13px;cursor:pointer;
+    box-shadow:var(--shadow-sm);
+    transition:transform .15s, box-shadow .15s;
+  }
+  .btn-submit:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
+  .btn-submit:disabled{
+    background:var(--muted);cursor:not-allowed;transform:none;box-shadow:none;
+    opacity:.7;
+  }
+
+  /* EXPLANATION */
+  .explanation{
+    margin-top:18px;border-radius:12px;overflow:hidden;
+    border:1px solid var(--line);display:none;
+    animation:slideDown .3s ease;
+  }
+  .explanation.show{display:block}
+  @keyframes slideDown{
+    from{opacity:0;transform:translateY(-8px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  .exp-header{
+    padding:12px 18px;font-size:13px;font-weight:700;
+    color:white;letter-spacing:.4px;text-transform:uppercase;
+  }
+  .exp-header.correct{background:linear-gradient(90deg,#1F7E54 0%,var(--green) 100%)}
+  .exp-header.incorrect{background:linear-gradient(90deg,#A03A20 0%,var(--warn) 100%)}
+  .exp-body{padding:18px 22px;background:white}
+  .exp-body h6{
+    font-size:13px;font-weight:700;color:var(--purple-deep);
+    margin:14px 0 6px;text-transform:uppercase;letter-spacing:.5px;
+  }
+  .exp-body h6:first-child{margin-top:0}
+  .exp-body p{font-size:13.5px;color:var(--ink);margin-bottom:8px;line-height:1.55}
+  .exp-body ul{margin:6px 0 8px 20px}
+  .exp-body li{font-size:13.5px;margin-bottom:4px;color:var(--ink)}
+  .exp-body strong{color:var(--purple-deep)}
+  .exp-tip{
+    background:linear-gradient(135deg,var(--turq-pale) 0%,var(--purple-pale) 100%);
+    border-left:4px solid var(--turq-deep);
+    padding:12px 16px;border-radius:6px 10px 10px 6px;
+    margin-top:12px;
+  }
+  .exp-tip-label{
+    font-size:10px;font-weight:700;color:var(--turq-deep);
+    letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;display:block;
+  }
+  .exp-tip p{
+    font-family:'Fraunces',serif;font-size:14px;color:var(--purple-deep);
+    margin:0;font-style:italic;line-height:1.5;
+  }
+  .exp-mapping{
+    margin-top:10px;font-size:12px;color:var(--muted);font-style:italic;
+    border-top:1px dashed var(--line);padding-top:8px;
+  }
+  .exp-mapping strong{color:var(--purple)}
+
+  /* FLASHCARDS */
+  .fc-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:18px;margin-top:18px;
+  }
+  .fc-card{
+    perspective:1200px;height:200px;cursor:pointer;
+  }
+  .fc-inner{
+    width:100%;height:100%;position:relative;
+    transition:transform .55s cubic-bezier(.4,0,.2,1);
+    transform-style:preserve-3d;
+  }
+  .fc-card.flipped .fc-inner{transform:rotateY(180deg)}
+  .fc-front, .fc-back{
+    position:absolute;inset:0;border-radius:14px;
+    backface-visibility:hidden;-webkit-backface-visibility:hidden;
+    padding:22px;display:flex;flex-direction:column;justify-content:center;
+    box-shadow:var(--shadow-sm);
+  }
+  .fc-front{
+    background:linear-gradient(135deg,var(--purple) 0%,var(--purple-light) 100%);
+    color:white;border:1px solid var(--purple-light);
+  }
+  .fc-back{
+    background:white;border:1px solid var(--line);
+    transform:rotateY(180deg);color:var(--ink);
+  }
+  .fc-label{
+    font-size:10px;font-weight:700;letter-spacing:1.5px;
+    text-transform:uppercase;opacity:.85;margin-bottom:10px;
+  }
+  .fc-front .fc-content{
+    font-family:'Fraunces',serif;font-size:18px;font-weight:600;line-height:1.3;
+  }
+  .fc-back .fc-content{font-size:13.5px;line-height:1.5}
+  .fc-back strong{color:var(--purple-deep)}
+  .fc-hint{font-size:11px;opacity:.7;margin-top:auto}
+
+  /* SUMMARY */
+  .summary-box{
+    background:linear-gradient(135deg,var(--purple-pale) 0%,var(--turq-pale) 100%);
+    border-radius:18px;padding:30px 36px;
+    border:1px solid var(--line);text-align:center;
+    margin:30px 0;
+  }
+  .summary-box h3{
+    font-family:'Fraunces',serif;font-size:28px;color:var(--purple-deep);
+    margin-bottom:10px;
+  }
+  .summary-stats{
+    display:flex;justify-content:center;gap:24px;
+    margin:20px 0;flex-wrap:wrap;
+  }
+  .summary-stat{
+    background:white;border-radius:14px;padding:18px 28px;
+    border:1px solid var(--line);
+  }
+  .summary-stat .v{
+    font-family:'Fraunces',serif;font-size:38px;font-weight:700;
+    color:var(--purple);line-height:1;display:block;margin-bottom:6px;
+  }
+  .summary-stat .l{
+    font-size:11px;color:var(--muted);font-weight:600;
+    text-transform:uppercase;letter-spacing:1px;
+  }
+  .summary-progress{
+    width:100%;max-width:480px;margin:14px auto;
+    height:10px;background:rgba(91,43,168,.15);border-radius:6px;overflow:hidden;
+  }
+  .summary-progress-bar{
+    height:100%;background:linear-gradient(90deg,var(--purple) 0%,var(--turq) 100%);
+    width:0%;transition:width .6s ease;
+  }
+  .summary-msg{
+    font-size:14px;color:var(--ink);max-width:480px;margin:0 auto;
+  }
+
+  /* TOAST */
+  .toast{
+    position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);
+    background:var(--purple-deep);color:white;
+    padding:12px 22px;border-radius:30px;
+    font-size:13px;font-weight:600;
+    box-shadow:var(--shadow-lg);
+    transition:transform .3s ease;z-index:200;opacity:0;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+  /* RESPONSIVE */
+  @media (max-width:900px){
+    .hero h1{font-size:38px}
+    .case-body{padding:22px 20px}
+    .match-container{grid-template-columns:1fr}
+    .topbar{padding:0 14px}
+    .brand-text .t1{font-size:12px}
+    .brand-text .t2{display:none}
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">EP</div>
+    <div class="brand-text">
+      <span class="t1">EP Cases Module — Interactive Practice</span>
+      <span class="t2">Master in Pharmacy Administration · University of Jordan</span>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <button class="btn btn-ghost" onclick="resetAll()">↻ Reset</button>
+    <button class="btn btn-turq" onclick="window.open('EP_Lecture_Slides.html','_blank')">◄ Back to Lecture</button>
+    <button class="btn btn-primary" onclick="downloadStudyPack()">⬇ Study Pack</button>
+  </div>
+</header>
+<div class="progress-wrap"><div class="progress-bar" id="prog"></div></div>
+
+<section class="hero">
+  <span class="hero-eyebrow">Master in Pharmacy Administration · Interactive Practice</span>
+  <h1>EP <span class="accent">Cases</span> Module</h1>
+  <p class="hero-sub">Apply the lecture frameworks to two structured clinical scenarios — one hospital, one community — backed by flashcards and exam-grade questions in multiple modalities.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="n">2</span><span class="l">Rich Cases</span></div>
+    <div class="hero-stat"><span class="n">12</span><span class="l">Flashcards</span></div>
+    <div class="hero-stat"><span class="n">30</span><span class="l">Exam Items</span></div>
+    <div class="hero-stat"><span class="n">4</span><span class="l">Question Types</span></div>
+  </div>
+</section>
+
+<main class="main">
+
+<nav class="mod-nav" id="modNav">
+  <button class="mod-nav-btn active" data-mod="case1" onclick="showMod('case1')">🏥 Hospital Case <span class="badge">1</span></button>
+  <button class="mod-nav-btn" data-mod="case2" onclick="showMod('case2')">🏘️ Community Case <span class="badge">2</span></button>
+  <button class="mod-nav-btn" data-mod="flash" onclick="showMod('flash')">🃏 Flashcards <span class="badge">12</span></button>
+  <button class="mod-nav-btn" data-mod="mcq" onclick="showMod('mcq')">📝 MCQs <span class="badge">12</span></button>
+  <button class="mod-nav-btn" data-mod="match" onclick="showMod('match')">🔗 Matching <span class="badge">3</span></button>
+  <button class="mod-nav-btn" data-mod="mixed" onclick="showMod('mixed')">🎯 Mixed Bag <span class="badge">5</span></button>
+  <button class="mod-nav-btn" data-mod="summary" onclick="showMod('summary')">📊 Summary</button>
+</nav>
+
+<!-- ============ MODULES INSERTED BELOW ============ -->
+
+<!-- ============================================ -->
+<!-- CASE 1 — HOSPITAL -->
+<!-- ============================================ -->
+<section class="module active" id="case1">
+
+<div class="mod-head">
+  <h2>Case 1 — The Paediatric Gentamicin Incident</h2>
+  <p>A multi-stage hospital scenario combining default-acceptance, decision-support failure, BCMA workaround, and the post-incident governance response.</p>
+  <div class="meta">
+    <span class="meta-pill">Setting · Hospital</span>
+    <span class="meta-pill turq">Tier · Tertiary</span>
+    <span class="meta-pill gold">Themes · 6</span>
+    <span class="meta-pill warn">Difficulty · Advanced</span>
+  </div>
+</div>
+
+<div class="case-card">
+  <div class="case-banner">
+    <h3>Stage 1 — The prescription</h3>
+    <div class="case-meta">
+      <span>Paediatric Ward · 22:40</span><span class="dot"></span>
+      <span>Saturday night admission</span><span class="dot"></span>
+      <span>EP system go-live · Month 4</span>
+    </div>
+  </div>
+  <div class="case-body">
+
+  <div class="vignette">
+    <span class="vignette-label">Clinical scenario</span>
+    <p><strong>Layla, age 4 years, weight 18 kg</strong>, is admitted via the Emergency Department to the paediatric medical ward at a Hakeem-enabled tertiary hospital in Amman with suspected pyelonephritis. Temperature 39.2 °C, urinary symptoms for 48 hours. The on-call paediatric SHO, recently rotated from adult medicine, accesses the EP system and selects gentamicin from the antibiotics dropdown.</p>
+    <p>The system pre-populates a default dose of <strong>240 mg IV once daily</strong>. The SHO, working through five admissions, clicks <strong>Confirm</strong>. The order is signed at 22:42. No active alert fires for paediatric high-dose. The order routes to pharmacy, where it is verified by the on-call pharmacist who is simultaneously processing TPN orders for the neonatal unit.</p>
+    <p>At 23:55 the ward nurse retrieves the dose from the automated cabinet and prepares to administer it. She notices the patient looks small.</p>
+  </div>
+
+  <div class="decision-points">
+    <h5>Decision points to consider</h5>
+    <ol>
+      <li>What is the safe gentamicin dose for an 18-kg child? (use 5 mg/kg)</li>
+      <li>How many distinct safety controls failed in this stage?</li>
+      <li>Which Koppel-family error is the dropdown default-acceptance?</li>
+      <li>What governance response is required within 24 hours?</li>
+    </ol>
+  </div>
+
+  <h4>Q1 · Stage 1 reasoning</h4>
+
+  <div class="q-container" data-q="c1q1">
+    <div class="q-header">
+      <span class="q-num">CASE 1 / Q1</span>
+      <span class="q-type">MCQ · 5 options</span>
+    </div>
+    <div class="q-body">
+      <p class="q-stem">The default-acceptance pathway in this scenario is best categorised within which of the following frameworks?</p>
+      <div class="mcq-options">
+        <div class="mcq-option" onclick="selectMcq('c1q1','a')"><div class="mcq-letter">A</div><div class="mcq-text">A latent failure in the medicines database, because the adult formulary is the only one loaded.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q1','b')"><div class="mcq-letter">B</div><div class="mcq-text">A Koppel-family human-machine interface error, specifically default-dose acceptance without weight-based recalculation.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q1','c')"><div class="mcq-letter">C</div><div class="mcq-text">A workflow violation, because the SHO did not consult the BNF before prescribing.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q1','d')"><div class="mcq-letter">D</div><div class="mcq-text">A prescribing competency gap, addressed through targeted retraining of the individual SHO.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q1','e')"><div class="mcq-letter">E</div><div class="mcq-text">A pharmacovigilance signal that should be reported to JFDA as an adverse drug reaction.</div></div>
+      </div>
+      <div class="q-actions">
+        <button class="btn-submit" onclick="submitMcq('c1q1','b','case1')">Submit</button>
+      </div>
+      <div class="explanation" id="exp-c1q1">
+        <div class="exp-header"></div>
+        <div class="exp-body">
+          <h6>Why B is correct</h6>
+          <p>Koppel et al. (2005) classified 22 EP-facilitated error types into two families. The default-dose pathway with one-click acceptance and no weight-based recalculation is the canonical example of a <strong>Family B human-machine interface error</strong>. The key feature is that the system enabled the error not by missing data, but by presenting an unsafe default that required user override to be safe.</p>
+          <h6>Why each other option is wrong</h6>
+          <ul>
+            <li><strong>A — partial truth, wrong frame.</strong> The medicines database may indeed lack paediatric defaults, but classifying this as 'latent failure of the database' obscures the more specific Koppel taxonomy expected at master's level. The error is in the UI behaviour, not the database content alone.</li>
+            <li><strong>C — workflow violation.</strong> Consulting the BNF is good practice but is not the systemic root cause. The system itself should have prevented the error regardless of whether the SHO opened the BNF. Blaming the user diverts attention from system design.</li>
+            <li><strong>D — prescribing competency.</strong> The individual SHO's competency is one factor, but root-cause analysis at the system level recognises that any SHO at any hospital using this UI would face the same risk. Retraining one person does not fix a defaulting system.</li>
+            <li><strong>E — pharmacovigilance.</strong> An ADR is an unexpected drug reaction. A wrong dose is a medication error, reported through incident-reporting channels (and to the patient-safety committee), not via the JFDA pharmacovigilance pathway.</li>
+          </ul>
+          <div class="exp-tip">
+            <span class="exp-tip-label">💡 Examiner's tip</span>
+            <p>Classify any EP failure first by Koppel family (information fragmentation vs human-machine interface). The taxonomy is the starting point, not the conclusion — but examiners want to see you have it.</p>
+          </div>
+          <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 13 (New errors EP creates) · Slide 6 (EP definition) · Slide 14 (Paediatric prescribing)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-container" data-q="c1q2">
+    <div class="q-header">
+      <span class="q-num">CASE 1 / Q2</span>
+      <span class="q-type">MCQ · 5 options</span>
+    </div>
+    <div class="q-body">
+      <p class="q-stem">The CDS engine fired no high-dose alert despite the prescription being approximately 2.7-fold the safe dose. Which design feature would most directly address this gap?</p>
+      <div class="mcq-options">
+        <div class="mcq-option" onclick="selectMcq('c1q2','a')"><div class="mcq-letter">A</div><div class="mcq-text">Increasing the override-justification field to a mandatory free-text reason for all alerts.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q2','b')"><div class="mcq-letter">B</div><div class="mcq-text">Disabling the dropdown defaults entirely so prescribers must type the dose for every order.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q2','c')"><div class="mcq-letter">C</div><div class="mcq-text">Configuring age-banded high-dose thresholds that compute against weight-based mg/kg ceilings drawn from a paediatric formulary.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q2','d')"><div class="mcq-letter">D</div><div class="mcq-text">Adding a hard stop on all paediatric gentamicin prescriptions that requires consultant sign-off before processing.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q2','e')"><div class="mcq-letter">E</div><div class="mcq-text">Routing all paediatric prescriptions through pharmacy verification before the order is signed.</div></div>
+      </div>
+      <div class="q-actions">
+        <button class="btn-submit" onclick="submitMcq('c1q2','c','case1')">Submit</button>
+      </div>
+      <div class="explanation" id="exp-c1q2">
+        <div class="exp-header"></div>
+        <div class="exp-body">
+          <h6>Why C is correct</h6>
+          <p>The specific gap is the absence of <strong>age- and weight-banded dose validation</strong>. The CDS rule must compute the prescribed dose against a paediatric formulary's mg/kg ceiling and fire an interruptive alert when exceeded. This is a precise, targeted control that addresses the root cause without disrupting unrelated workflows.</p>
+          <h6>Why each other option is wrong</h6>
+          <ul>
+            <li><strong>A — mandatory free text.</strong> Forces clinicians to write a justification for every override. Worsens alert fatigue and Magrabi-style free-text discrepancies. Volume of overrides goes up; signal goes down.</li>
+            <li><strong>B — disable defaults.</strong> Removes a usability feature for adult prescribing where defaults are appropriate. Breaks workflows for nephrology, oncology, and routine adult care. Over-correction.</li>
+            <li><strong>D — hard stop with consultant sign-off.</strong> Strom et al. demonstrated that hard stops cause clinically significant delays — the warfarin + co-trimoxazole trial was terminated for this reason. A hard stop on all paediatric gentamicin would delay treatment for children with sepsis. Too blunt.</li>
+            <li><strong>E — mandatory pharmacy verification.</strong> A reasonable additional layer, but addresses the symptom (the order reaching the patient) not the root cause (the unsafe default acceptance at the prescribing point). Also operationally infeasible 24/7 in most hospitals.</li>
+          </ul>
+          <div class="exp-tip">
+            <span class="exp-tip-label">💡 Examiner's tip</span>
+            <p>When asked to design CDS, choose the most specific intervention at the most upstream point in the workflow. Broader interventions (hard stops, pharmacy verification) belong as defence-in-depth, not as the primary fix.</p>
+          </div>
+          <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 18 (CDS active vs passive) · Slide 19 (Warning fatigue) · Slide 20 (Hard stops & 2×2 matrix) · Slide 14 (Paediatric)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+<!-- STAGE 2 -->
+<div class="case-card">
+  <div class="case-banner">
+    <h3>Stage 2 — The BCMA workaround</h3>
+    <div class="case-meta">
+      <span>Paediatric Ward · 23:55</span><span class="dot"></span>
+      <span>Night shift, 1 nurse to 8 patients</span>
+    </div>
+  </div>
+  <div class="case-body">
+
+  <div class="vignette">
+    <span class="vignette-label">Continued scenario</span>
+    <p>The night-shift nurse retrieves the 240 mg gentamicin from the automated cabinet. She holds the syringe and looks at the patient — clearly small. She glances at the eMAR; the dose is signed off. The patient's wristband is on the bedside table because it was uncomfortable for the child during the day. The nurse scans <strong>the loose wristband on the table</strong>, not the patient's wrist, and scans the syringe label. Both scans clear. The eMAR records administration at 23:58.</p>
+    <p>Two hours later the on-call paediatrician reviewing admissions notices the dose, calculates 240 ÷ 18 ≈ 13.3 mg/kg, and immediately escalates. The patient receives N-acetylcysteine and intensive fluid management. Renal function is monitored over the next 72 hours. There is no acute kidney injury but a transient creatinine rise that returns to baseline by day 5.</p>
+  </div>
+
+  <div class="q-container" data-q="c1q3">
+    <div class="q-header">
+      <span class="q-num">CASE 1 / Q3</span>
+      <span class="q-type">MCQ · 5 options</span>
+    </div>
+    <div class="q-body">
+      <p class="q-stem">The nurse's action of scanning the loose wristband corresponds to which Koppel BCMA workaround category, and what is the primary risk it introduces?</p>
+      <div class="mcq-options">
+        <div class="mcq-option" onclick="selectMcq('c1q3','a')"><div class="mcq-letter">A</div><div class="mcq-text">Batch scanning — risk of administering doses meant for other patients later in the round.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q3','b')"><div class="mcq-letter">B</div><div class="mcq-text">Detached wristband scanning — defeats the bedside identification check and misses bed swaps or wristband mix-ups.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q3','c')"><div class="mcq-letter">C</div><div class="mcq-text">Pre-labelled dose preparation — risks drift between the labelled pack and the dispensed contents.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q3','d')"><div class="mcq-letter">D</div><div class="mcq-text">Override of the 'ID not confirmed' alert — bypasses the patient identification entirely.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q3','e')"><div class="mcq-letter">E</div><div class="mcq-text">Verbal-confirmation scanning — two nurses verbally agree the patient identity rather than scanning the wristband.</div></div>
+      </div>
+      <div class="q-actions">
+        <button class="btn-submit" onclick="submitMcq('c1q3','b','case1')">Submit</button>
+      </div>
+      <div class="explanation" id="exp-c1q3">
+        <div class="exp-header"></div>
+        <div class="exp-body">
+          <h6>Why B is correct</h6>
+          <p>Scanning a wristband that is not on the patient's body is the textbook example of the <strong>detached wristband workaround</strong>. The BCMA system records a successful patient identification, but no actual bedside check occurred. If the wristband had been swapped (e.g., from a previous patient discharged earlier that day) or simply belonged to a different bay, the wrong patient would receive the dose with the system's blessing.</p>
+          <h6>Why each other option is wrong</h6>
+          <ul>
+            <li><strong>A — batch scanning.</strong> Different workaround: scanning all medications for all patients at the start of the round before going to bedsides. Not what happened here.</li>
+            <li><strong>C — pre-labelled doses.</strong> Refers to labelling unit-dose packets in advance without bedside verification. This case is about the wristband, not the medication.</li>
+            <li><strong>D — override of ID not confirmed.</strong> The system did not generate an ID-not-confirmed alert here because the (loose) wristband scanned successfully. There was no override.</li>
+            <li><strong>E — verbal confirmation.</strong> A different workaround in which two nurses verbally confirm identity instead of scanning. Here, scanning did happen, just not against the patient.</li>
+          </ul>
+          <div class="exp-tip">
+            <span class="exp-tip-label">💡 Examiner's tip</span>
+            <p>The 15 BCMA workarounds in Koppel et al. share a structural feature: they all preserve the appearance of compliance while removing the safety check. When you analyse a workaround, always ask: 'what visible sign of compliance was created? what real safety check was lost?'</p>
+          </div>
+          <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 15 (BCMA workflow) · Slide 16 (15 BCMA workarounds) · Slide 17 (BCMA limitations)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-container" data-q="c1q4">
+    <div class="q-header">
+      <span class="q-num">CASE 1 / Q4</span>
+      <span class="q-type">True / False</span>
+    </div>
+    <div class="q-body">
+      <p class="q-stem">Increasing the BCMA scan-rate KPI alone is the most effective intervention to prevent recurrence of detached-wristband workarounds.</p>
+      <div class="tf-options">
+        <button class="tf-option" onclick="selectTf('c1q4','t')">TRUE</button>
+        <button class="tf-option" onclick="selectTf('c1q4','f')">FALSE</button>
+      </div>
+      <div class="q-actions">
+        <button class="btn-submit" onclick="submitTf('c1q4','f','case1')">Submit</button>
+      </div>
+      <div class="explanation" id="exp-c1q4">
+        <div class="exp-header"></div>
+        <div class="exp-body">
+          <h6>The answer is FALSE</h6>
+          <p>The detached-wristband workaround <strong>preserves a high scan rate</strong> — the wristband is being scanned. So the KPI looks fine while the safety check is bypassed. Effective prevention requires multiple elements: addressing the root cause (wristband comfort for paediatric patients, alternative IDs like temporary tattoos or RFID), workflow design (scan-at-bedside enforcement via geolocation or proximity), nurse engagement (McNulty's ownership model), and audit (random unannounced bedside observations to verify wristband-on-patient practice).</p>
+          <p>A naked scan-rate KPI rewards the workaround.</p>
+          <div class="exp-tip">
+            <span class="exp-tip-label">💡 Examiner's tip</span>
+            <p>Whenever you propose a KPI, ask the inverse question: 'how could a clever person hit this number while doing the wrong thing?' If the answer is easy, the KPI is poor.</p>
+          </div>
+          <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 16 (BCMA workarounds) · Slide 17 (BCMA limitations)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+<!-- STAGE 3 -->
+<div class="case-card">
+  <div class="case-banner">
+    <h3>Stage 3 — Governance response</h3>
+    <div class="case-meta">
+      <span>Patient Safety Committee · Monday morning</span><span class="dot"></span>
+      <span>72 h post-incident</span>
+    </div>
+  </div>
+  <div class="case-body">
+
+  <div class="vignette">
+    <span class="vignette-label">Continued scenario</span>
+    <p>The Director of Pharmacy is asked to chair an urgent root-cause analysis. The Medical Director, Director of Nursing, IT lead, paediatric consultant, and patient-safety officer attend. The CEO requests, by Friday, a written incident report and a remediation plan that will be presented to the Hospital Board next week.</p>
+    <p>The CEO asks specifically: <em>'Can our EP system be considered safe for paediatric prescribing right now? Should we suspend it?'</em></p>
+  </div>
+
+  <div class="q-container" data-q="c1q5">
+    <div class="q-header">
+      <span class="q-num">CASE 1 / Q5</span>
+      <span class="q-type">MCQ · 5 options</span>
+    </div>
+    <div class="q-body">
+      <p class="q-stem">Which response best reflects the principles of post-implementation EP surveillance and governance?</p>
+      <div class="mcq-options">
+        <div class="mcq-option" onclick="selectMcq('c1q5','a')"><div class="mcq-letter">A</div><div class="mcq-text">Suspend the EP system across the paediatric service immediately and revert to paper drug charts until a full audit is complete.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q5','b')"><div class="mcq-letter">B</div><div class="mcq-text">Maintain EP, deploy a configurable hotfix that adds age- and weight-banded dose ceilings within 48 hours, audit all paediatric prescriptions of the prior 90 days, and report findings to the Board.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q5','c')"><div class="mcq-letter">C</div><div class="mcq-text">Mandate that all paediatric prescriptions be co-signed by a consultant, and require all nurses to attend retraining within one month.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q5','d')"><div class="mcq-letter">D</div><div class="mcq-text">Assert that the system is safe because the patient was not harmed, classify the incident as a near-miss, and close the case.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c1q5','e')"><div class="mcq-letter">E</div><div class="mcq-text">Refer the SHO to the Medical Council, suspend the on-call pharmacist pending review, and document the incident in the staff file.</div></div>
+      </div>
+      <div class="q-actions">
+        <button class="btn-submit" onclick="submitMcq('c1q5','b','case1')">Submit</button>
+      </div>
+      <div class="explanation" id="exp-c1q5">
+        <div class="exp-header"></div>
+        <div class="exp-body">
+          <h6>Why B is correct</h6>
+          <p>This option blends three governance principles taught in the lecture: (1) <strong>continuous monitoring and refinement</strong> rather than retreat, (2) <strong>system-level fix</strong> targeting the design weakness rather than blaming individuals, and (3) <strong>retrospective audit</strong> to identify whether other paediatric patients were affected. The 90-day look-back is proportionate and feasible. The Board reporting closes the governance loop.</p>
+          <h6>Why each other option is wrong</h6>
+          <ul>
+            <li><strong>A — suspend EP, revert to paper.</strong> Reverting to paper would re-introduce illegibility errors, transcription errors, and the J-curve known weaknesses of paper. Net safety would worsen, not improve. Disproportionate response.</li>
+            <li><strong>C — consultant co-sign + nurse retraining.</strong> Both interventions place the burden on people without fixing the system. Consultant co-sign creates delays in urgent prescribing; nurse retraining addresses Stage 2 only, not Stage 1. Sociotechnical thinking demands fixing the system first.</li>
+            <li><strong>D — close as near-miss.</strong> Sweeping a Class A incident under the rug. The patient received a 2.7-fold overdose; transient creatinine rise is harm, even if no AKI. Failure to act would itself be a governance failure.</li>
+            <li><strong>E — punish the individual staff.</strong> Just-culture principles distinguish system errors from reckless conduct. The SHO followed the workflow the system presented. The pharmacist was working under known understaffing. Punishment would damage incident reporting and morale without reducing risk.</li>
+          </ul>
+          <div class="exp-tip">
+            <span class="exp-tip-label">💡 Examiner's tip</span>
+            <p>In governance scenarios, the highest-scoring answer is almost always the system-level fix combined with proportionate audit and transparent reporting. Punitive answers and full-system suspensions are usually distractors.</p>
+          </div>
+          <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 27 (Take-home: monitor and adapt) · Slide 19 (Warning fatigue) · Slide 14 (Paediatric)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+</section>
+
+<!-- ============================================ -->
+<!-- CASE 2 — COMMUNITY -->
+<!-- ============================================ -->
+<section class="module" id="case2">
+
+<div class="mod-head">
+  <h2>Case 2 — The Discharge-to-Community Transition</h2>
+  <p>A Friday-afternoon hospital discharge that stalls on its way to the community. eTP, repeat dispensing, and the open-loop nature of community pharmacy create cascading patient-safety risks.</p>
+  <div class="meta">
+    <span class="meta-pill">Setting · Community + Hospital</span>
+    <span class="meta-pill turq">Tier · Secondary</span>
+    <span class="meta-pill gold">Themes · 5</span>
+    <span class="meta-pill warn">Difficulty · Advanced</span>
+  </div>
+</div>
+
+<div class="case-card">
+  <div class="case-banner">
+    <h3>Stage 1 — Discharge from the medical ward</h3>
+    <div class="case-meta">
+      <span>Internal Medicine, Bed 14 · 16:20 Friday</span><span class="dot"></span>
+      <span>5-day admission for AF + HF exacerbation</span><span class="dot"></span>
+      <span>EP system go-live · Year 2</span>
+    </div>
+  </div>
+  <div class="case-body">
+
+  <div class="vignette">
+    <span class="vignette-label">Patient · Mr. Faisal Q.</span>
+    <p><strong>Mr. Faisal Q., 71 years</strong>, is a long-standing patient at a community pharmacy in Sweileh, Amman. He was admitted to the JUH internal-medicine ward five days ago with new-onset atrial fibrillation and a heart-failure exacerbation. He is stable, optimised, and ready for discharge.</p>
+    <p>The discharge prescription, written through the hospital EP system at 16:20 Friday, includes <strong>seven items</strong>: apixaban 5 mg BID (new anticoagulant, replaces previous aspirin), bisoprolol 5 mg OD (dose-titrated), furosemide 40 mg OD (continued), ramipril 5 mg OD (dose-titrated), atorvastatin 40 mg ON (continued), digoxin 125 mcg OD (new), and a 14-day course of furosemide 80 mg OD as an interim higher dose for two weeks.</p>
+    <p>The hospital's electronic discharge summary is generated automatically, including the medication list, dose changes (annotated 'NEW' / 'STOPPED' / 'CHANGED'), and follow-up plan. The system pushes the summary into a <strong>nightly batch transfer</strong> to community pharmacies and GP surgeries via a regional clinical portal.</p>
+    <p>Mr. Faisal goes home at 17:30 Friday with a paper printout of the discharge summary and a 7-day take-home supply from the hospital pharmacy. He plans to refill at his usual community pharmacy in Sweileh on Friday afternoon next week.</p>
+  </div>
+
+  <div class="decision-points">
+    <h5>📌 Decision points to consider</h5>
+    <ol>
+      <li>What hand-off failure modes are latent in a Friday-afternoon batch-transmitted discharge?</li>
+      <li>How does the open-loop nature of community EP differ from the closed loop the hospital just operated in?</li>
+      <li>What does the new apixaban prescription require from the community pharmacist to avoid Magrabi-style discrepancy errors?</li>
+      <li>What patient-facing safeguards should be built into the transition?</li>
+    </ol>
+  </div>
+
+  <div class="q-container" data-q="c2q1">
+    <div class="q-header">
+      <span class="q-num">CASE 2 / Q1</span>
+      <span class="q-type">MCQ · 5 options</span>
+    </div>
+    <div class="q-body">
+      <p class="q-stem">A nightly batch transmission of discharge summaries from hospital to GP and community pharmacy systems is in operational use. From a sociotechnical standpoint, what is the principal latent failure mode introduced by this design?</p>
+      <div class="mcq-options">
+        <div class="mcq-option" onclick="selectMcq('c2q1','a')"><div class="mcq-letter">A</div><div class="mcq-text">A weekend gap during which discharges generated late Friday will not reach the GP until the early hours of Monday at the earliest.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q1','b')"><div class="mcq-letter">B</div><div class="mcq-text">Encryption-key rotation is not handled for batch jobs running outside business hours.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q1','c')"><div class="mcq-letter">C</div><div class="mcq-text">Batch jobs prevent the hospital pharmacy from running stock-replenishment scripts overnight.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q1','d')"><div class="mcq-letter">D</div><div class="mcq-text">SNOMED CT codes for new medicines are not synchronised with the community formulary until the next batch.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q1','e')"><div class="mcq-letter">E</div><div class="mcq-text">Patients receive paper copies that override any electronic record at the receiving system.</div></div>
+      </div>
+      <div class="q-actions">
+        <button class="btn-submit" onclick="submitMcq('c2q1','a','case2')">Submit</button>
+      </div>
+      <div class="explanation" id="exp-c2q1">
+        <div class="exp-header"></div>
+        <div class="exp-body">
+          <h6>Why A is correct</h6>
+          <p>Kirby et al. and the Southampton/Bridgend implementations demonstrated that the principal value of electronic discharge summaries is <strong>real-time transfer</strong> — reducing the GP-information delay from ~80 days (paper) to under 24 hours (electronic). A nightly batch design negates this benefit and reintroduces a process gap. Friday-afternoon discharges are exposed to a 60+ hour window during which the receiving system has no record. This is the canonical "process design failure" described in the lecture's discharge case.</p>
+          <h6>Why each other option is wrong</h6>
+          <ul>
+            <li><strong>B — encryption-key rotation.</strong> A real concern for any batch system, but not the principal latent failure of nightly batches in this clinical context. Question is asking for the dominant safety risk to the patient.</li>
+            <li><strong>C — stock-replenishment scripts.</strong> Operational, not a clinical-safety hand-off issue. Batch windows are routinely managed in parallel.</li>
+            <li><strong>D — SNOMED CT synchronisation.</strong> Plausible-sounding distractor for students who memorise terminology. The community formulary already contains the SNOMED codes for licensed medicines; new <em>medicines</em> are added through formulary processes, not through discharge-summary batches. Wrong layer of the architecture.</li>
+            <li><strong>E — paper copy overrides electronic.</strong> Receiving systems do not "override" anything based on a paper copy — paper and electronic are independent channels. The design problem is the absence of timely electronic transfer, not paper interfering with electronic.</li>
+          </ul>
+          <div class="exp-tip">
+            <span class="exp-tip-label">💡 Examiner's tip</span>
+            <p>"Latent failure mode" is a Reason-style term — it asks which dormant condition will surface as a clinical incident under the right trigger. Pick the option that names the temporal or informational gap closest to the patient.</p>
+          </div>
+          <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 25 (Discharge transition flow) · Slide 23 (Community vs hospital EP) · Slide 27 (Take-home: monitor and adapt)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-container" data-q="c2q2">
+    <div class="q-header">
+      <span class="q-num">CASE 2 / Q2</span>
+      <span class="q-type">MCQ · 5 options</span>
+    </div>
+    <div class="q-body">
+      <p class="q-stem">Mr. Faisal has been started on apixaban as a replacement for his previous aspirin. The discharge summary annotates this as 'NEW · STOPPED PREVIOUS'. Which CDS or process feature in a community EP system most directly protects against a duplication or omission error at the next refill?</p>
+      <div class="mcq-options">
+        <div class="mcq-option" onclick="selectMcq('c2q2','a')"><div class="mcq-letter">A</div><div class="mcq-text">A formulary-restriction rule that blocks aspirin from being dispensed to any patient over 70 unless co-signed.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q2','b')"><div class="mcq-letter">B</div><div class="mcq-text">Automatic medication reconciliation that compares the incoming discharge list to the patient's existing repeat record and flags additions, deletions, and substitutions for pharmacist review.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q2','c')"><div class="mcq-letter">C</div><div class="mcq-text">A SureScripts-style transmission token that confirms delivery of the new prescription only.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q2','d')"><div class="mcq-letter">D</div><div class="mcq-text">A pop-up patient-counselling reminder triggered every time apixaban is dispensed.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q2','e')"><div class="mcq-letter">E</div><div class="mcq-text">Automatic SMS to the patient confirming that aspirin should no longer be taken.</div></div>
+      </div>
+      <div class="q-actions">
+        <button class="btn-submit" onclick="submitMcq('c2q2','b','case2')">Submit</button>
+      </div>
+      <div class="explanation" id="exp-c2q2">
+        <div class="exp-header"></div>
+        <div class="exp-body">
+          <h6>Why B is correct</h6>
+          <p>Medication reconciliation at transitions is the single highest-yield community-EP safeguard. The community pharmacist must explicitly compare the discharge list to the active repeat record and resolve every difference (NEW, STOPPED, DOSE-CHANGED). The CDS layer should surface these deltas automatically, but the pharmacist's review is the safeguard. This addresses both <strong>duplication</strong> (patient continues aspirin alongside apixaban — bleeding risk) and <strong>omission</strong> (apixaban is not added because aspirin "is already there").</p>
+          <h6>Why each other option is wrong</h6>
+          <ul>
+            <li><strong>A — formulary block on aspirin.</strong> Aspirin has many legitimate indications in older patients (cardiac stenting, secondary prevention). A blanket block would create alert fatigue and inappropriate prescribing barriers. Wrong instrument.</li>
+            <li><strong>C — transmission token.</strong> Confirms delivery, not safety. SureScripts-style tokens prevent prescription fraud and loss in transit, not therapeutic-duplication errors at the receiving end.</li>
+            <li><strong>D — counselling reminder for apixaban.</strong> Useful but does not reconcile against the existing record. If the patient continues aspirin alongside apixaban, the pop-up does nothing.</li>
+            <li><strong>E — patient SMS.</strong> Helpful adjunct, but relies on patient compliance and recall. Not a system-level safeguard. Patient-facing reminders are defence-in-depth, not the primary control.</li>
+          </ul>
+          <div class="exp-tip">
+            <span class="exp-tip-label">💡 Examiner's tip</span>
+            <p>At any care transition, "medication reconciliation" is the highest-scoring answer when offered. It is the WHO High 5s priority, the NICE guideline expectation, and what JCI accreditation surveys for.</p>
+          </div>
+          <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 25 (Discharge transition) · Slide 22 (EHR integration) · Slide 18 (CDS active vs passive)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+<div class="case-card">
+  <div class="case-banner">
+    <h3>Stage 2 — At the community pharmacy, six days later</h3>
+    <div class="case-meta">
+      <span>Sweileh community pharmacy · Friday 13:40</span><span class="dot"></span>
+      <span>Patient brings paper discharge sheet</span><span class="dot"></span>
+      <span>Hospital take-home supply now exhausted</span>
+    </div>
+  </div>
+  <div class="case-body">
+
+  <div class="vignette">
+    <span class="vignette-label">Stage 2 · Refill day</span>
+    <p>Friday afternoon, Mr. Faisal walks into his Sweileh community pharmacy with the paper discharge sheet. The pharmacist, Dr. Layla, opens his patient record. <strong>The new apixaban does not appear in the system</strong> — the eTP feed received only the bisoprolol, ramipril, atorvastatin, furosemide, and digoxin items. The apixaban and the 14-day high-dose furosemide were dropped during the inter-system mapping because the hospital used a hospital-specific item code that did not resolve to the community drug catalogue.</p>
+    <p>The patient asks Dr. Layla in passing: <em>"They told me to stop the aspirin. I have been doing that, right?"</em> Dr. Layla checks his repeat: <strong>aspirin 75 mg OD is still active</strong>, last dispensed three weeks before admission.</p>
+    <p>Dr. Layla now has 30 minutes before the pharmacy closes for Friday prayer. The hospital's medicines-information line is closed for the weekend. The patient lives a 35-minute drive away and has no transport back if he leaves empty-handed.</p>
+  </div>
+
+  <div class="q-container" data-q="c2q3">
+    <div class="q-header">
+      <span class="q-num">CASE 2 / Q3</span>
+      <span class="q-type">MCQ · 5 options</span>
+    </div>
+    <div class="q-body">
+      <p class="q-stem">Two prescription items dropped during the inter-system mapping because of code-mismatch between the hospital catalogue and the community catalogue. Which interoperability standard is most directly designed to prevent this class of failure?</p>
+      <div class="mcq-options">
+        <div class="mcq-option" onclick="selectMcq('c2q3','a')"><div class="mcq-letter">A</div><div class="mcq-text">HL7 v2 ADT messaging used to keep patient demographic data in sync.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q3','b')"><div class="mcq-letter">B</div><div class="mcq-text">A national medicines dictionary such as dm+d in the UK or RxNorm in the US, mapped to a SNOMED CT code spine and adopted by both sender and receiver.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q3','c')"><div class="mcq-letter">C</div><div class="mcq-text">LOINC codes for laboratory observations applied to medicine names.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q3','d')"><div class="mcq-letter">D</div><div class="mcq-text">GS1 barcode standards on the manufacturer packaging.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q3','e')"><div class="mcq-letter">E</div><div class="mcq-text">A Hakeem-style central EHR overlay that bypasses local catalogues entirely.</div></div>
+      </div>
+      <div class="q-actions">
+        <button class="btn-submit" onclick="submitMcq('c2q3','b','case2')">Submit</button>
+      </div>
+      <div class="explanation" id="exp-c2q3">
+        <div class="exp-header"></div>
+        <div class="exp-body">
+          <h6>Why B is correct</h6>
+          <p>This is a <strong>terminology binding</strong> failure. Two different systems each held an internal item code for the same medicine; without a shared semantic spine, the mapping cannot reliably resolve. dm+d (UK) and RxNorm (US) are the canonical national medicines dictionaries — both built on a SNOMED CT scaffold. Adoption by both sender and receiver is what prevents items from being silently dropped or substituted at the boundary.</p>
+          <h6>Why each other option is wrong</h6>
+          <ul>
+            <li><strong>A — HL7 v2 ADT.</strong> ADT is admission-discharge-transfer demographic messaging, not medication content. HL7 is the transport layer here; the failure is at the semantic layer.</li>
+            <li><strong>C — LOINC.</strong> LOINC codes laboratory observations and clinical assessments. Not for medicines. Distractor for students who pattern-match standards names.</li>
+            <li><strong>D — GS1 barcodes.</strong> Operates at the physical-pack level for BCMA, not at the prescription-data layer for inter-system transfer.</li>
+            <li><strong>E — Hakeem central overlay.</strong> A central national EHR removes the inter-system mapping problem only for organisations on Hakeem; a community pharmacy in private hands is generally not yet integrated. Even where central overlays exist, they themselves use a medicines dictionary internally — the answer points to the underlying mechanism.</li>
+          </ul>
+          <div class="exp-tip">
+            <span class="exp-tip-label">💡 Examiner's tip</span>
+            <p>Distinguish the <strong>three layers of interoperability</strong> in any answer: transport (HL7, FHIR), terminology (SNOMED, dm+d, RxNorm, LOINC), and identity (NHS number, MRN, national ID). Code-mismatch is always a terminology problem.</p>
+          </div>
+          <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 22 (Standards stack: HL7, FHIR, SNOMED, dm+d, RxNorm, LOINC) · Slide 23 (Community EP)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-container" data-q="c2q4">
+    <div class="q-header">
+      <span class="q-num">CASE 2 / Q4</span>
+      <span class="q-type">True / False</span>
+    </div>
+    <div class="q-body">
+      <p class="q-stem">Statement: in a Hakeem-integrated facility, the failure described above (two items dropped during inter-system mapping) cannot occur, because Hakeem is a single instance of the EHR shared across all integrated facilities.</p>
+      <div class="tf-options">
+        <div class="tf-option" onclick="selectTf('c2q4','t')">TRUE</div>
+        <div class="tf-option" onclick="selectTf('c2q4','f')">FALSE</div>
+      </div>
+      <div class="q-actions">
+        <button class="btn-submit" onclick="submitTf('c2q4','f','case2')">Submit</button>
+      </div>
+      <div class="explanation" id="exp-c2q4">
+        <div class="exp-header"></div>
+        <div class="exp-body">
+          <h6>Why FALSE is correct</h6>
+          <p>The statement contains a true premise (Hakeem is indeed designed as a shared EHR across integrated facilities) attached to an unsafe conclusion. <strong>Code-mismatch can still occur</strong> wherever a non-integrated entity sits in the data path: a private-sector hospital, an out-of-network community pharmacy, a private GP surgery, or an external imaging provider. The failure described above happens at the <em>boundary</em> between integrated and non-integrated systems — exactly where most Jordanian community pharmacies sit today. Hakeem's integration footprint reduces the problem; it does not eliminate it.</p>
+          <h6>Why TRUE is wrong</h6>
+          <p>Treating a national EHR as a complete solution is a common student mistake — it conflates the design ambition (one record per patient) with the empirical reality (private sector, cross-border, paper-based and parallel-electronic processes coexist). Examiners want nuance: integration is a spectrum, not a binary.</p>
+          <div class="exp-tip">
+            <span class="exp-tip-label">💡 Examiner's tip</span>
+            <p>For Jordan-specific questions, always name three things: (1) Hakeem's footprint (MoH facilities, RMS, KHCC since 2009), (2) the unintegrated tail (private hospitals, community pharmacies, JFDA pharmacovigilance flow), (3) the boundary risks where data crosses between them.</p>
+          </div>
+          <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 26 (Jordan context — Hakeem, JFDA, private sector) · Slide 22 (Standards stack) · Slide 23 (Community EP)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-container" data-q="c2q5">
+    <div class="q-header">
+      <span class="q-num">CASE 2 / Q5</span>
+      <span class="q-type">MCQ · 5 options</span>
+    </div>
+    <div class="q-body">
+      <p class="q-stem">Considering everything above, what is the correct first action for Dr. Layla in the next 30 minutes?</p>
+      <div class="mcq-options">
+        <div class="mcq-option" onclick="selectMcq('c2q5','a')"><div class="mcq-letter">A</div><div class="mcq-text">Dispense the five items present in the eTP feed and ask the patient to return on Monday for the apixaban once the hospital can be reached.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q5','b')"><div class="mcq-letter">B</div><div class="mcq-text">Verify the apixaban dose and the high-dose furosemide course directly from the patient's paper discharge summary, document the source of the verification, deactivate the aspirin from the active repeat list, dispense all seven items, and notify the prescriber on Monday.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q5','c')"><div class="mcq-letter">C</div><div class="mcq-text">Decline to dispense any new items not present in the eTP feed and refer the patient back to the hospital pharmacy.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q5','d')"><div class="mcq-letter">D</div><div class="mcq-text">Dispense the apixaban and continue dispensing aspirin so the patient does not run short of either.</div></div>
+        <div class="mcq-option" onclick="selectMcq('c2q5','e')"><div class="mcq-letter">E</div><div class="mcq-text">Provide a 7-day emergency supply of all seven items at her own discretion and complete reconciliation the following week.</div></div>
+      </div>
+      <div class="q-actions">
+        <button class="btn-submit" onclick="submitMcq('c2q5','b','case2')">Submit</button>
+      </div>
+      <div class="explanation" id="exp-c2q5">
+        <div class="exp-header"></div>
+        <div class="exp-body">
+          <h6>Why B is correct</h6>
+          <p>B is the only option that does all four things the situation requires: (1) <strong>verifies</strong> the missing items against a primary source (paper discharge summary, signed by the hospital prescriber); (2) <strong>reconciles</strong> the active repeat record by deactivating the aspirin that the discharge explicitly stopped; (3) <strong>dispenses</strong> the medicines the patient clinically needs to start tonight; (4) <strong>documents</strong> the source of verification and notifies the prescriber. This is medication reconciliation in action, executed under time pressure with a defensible audit trail.</p>
+          <h6>Why each other option is wrong</h6>
+          <ul>
+            <li><strong>A — withhold apixaban until Monday.</strong> Apixaban is being newly initiated for AF in a 71-year-old. A 60-hour gap risks thromboembolic stroke. Withholding because of a system gap, when a verifying source is in the patient's hand, prioritises the system over the patient.</li>
+            <li><strong>C — refer back to hospital.</strong> 35-minute drive, weekend, no transport. The pharmacist holds the necessary primary source. This is moral hazard — passing the problem along when the pharmacist has authority to resolve it.</li>
+            <li><strong>D — continue aspirin alongside apixaban.</strong> Active dual antiplatelet + DOAC is a high bleeding risk. The discharge explicitly stopped aspirin. This option is the duplication error the case is testing for.</li>
+            <li><strong>E — emergency supply at discretion.</strong> Emergency supply is a defined regulatory mechanism for specific circumstances and durations. Using it as a routine workaround for system failures medicalises a process problem and is professionally indefensible at scale.</li>
+          </ul>
+          <div class="exp-tip">
+            <span class="exp-tip-label">💡 Examiner's tip</span>
+            <p>When a community-pharmacy scenario gives you a patient + a paper source + a system gap, the answer is almost always "verify, reconcile, dispense, document, notify" — in that order. Memorise the verbs.</p>
+          </div>
+          <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 25 (Discharge transition) · Slide 23 (Community EP) · Slide 27 (Take-home: culture matters)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+</section>
+
+<!-- ============================================ -->
+<!-- FLASHCARDS -->
+<!-- ============================================ -->
+<section class="module" id="flash">
+
+<div class="mod-head">
+  <h2>Flashcards — Concepts &amp; Terminology</h2>
+  <p>Click any card to flip. Twelve high-yield concepts spanning the lecture — designed for spaced repetition the night before exams.</p>
+  <div class="meta">
+    <span class="meta-pill">12 cards</span>
+    <span class="meta-pill turq">Click to flip</span>
+    <span class="meta-pill gold">Self-paced</span>
+  </div>
+</div>
+
+<div class="fc-grid">
+
+  <div class="fc-card" onclick="this.classList.toggle('flipped')">
+    <div class="fc-inner">
+      <div class="fc-front">
+        <div class="fc-label">Card 1 · Definition</div>
+        <div class="fc-content">Define EP and contrast with CPOE in one sentence.</div>
+        <div class="fc-hint">Tap to reveal</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-label">Answer</div>
+        <div class="fc-content"><strong>EP</strong> covers the full hospital medicines cycle (prescribe → supply → administer → monitor) with integrated decision support and audit trail; <strong>CPOE</strong> is data capture only and may exist without decision support.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-card" onclick="this.classList.toggle('flipped')">
+    <div class="fc-inner">
+      <div class="fc-front">
+        <div class="fc-label">Card 2 · Bates evidence</div>
+        <div class="fc-content">Headline numbers from Bates et al. on EP-attributable error reduction.</div>
+        <div class="fc-hint">Tap to reveal</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-label">Answer</div>
+        <div class="fc-content"><strong>54%</strong> ↓ in non-intercepted serious errors; <strong>17%</strong> ↓ in preventable ADEs; <strong>84%</strong> ↓ in non-intercepted potential ADEs; <strong>81%</strong> ↓ in overall non-missed-dose errors. The 17% number is the clinically meaningful but most modest figure.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-card" onclick="this.classList.toggle('flipped')">
+    <div class="fc-inner">
+      <div class="fc-front">
+        <div class="fc-label">Card 3 · Koppel</div>
+        <div class="fc-content">What did Koppel et al. (2005) find, and what are the two error families?</div>
+        <div class="fc-hint">Tap to reveal</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-label">Answer</div>
+        <div class="fc-content"><strong>22 EP-facilitated error types</strong> after 7 years of use, in two families: (A) <strong>fragmented data &amp; poor integration</strong>; (B) <strong>problematic human-machine interfaces</strong>. EP creates new error classes that did not exist on paper.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-card" onclick="this.classList.toggle('flipped')">
+    <div class="fc-inner">
+      <div class="fc-front">
+        <div class="fc-label">Card 4 · J-curve</div>
+        <div class="fc-content">Why do error rates initially increase post-EP go-live?</div>
+        <div class="fc-hint">Tap to reveal</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-label">Answer</div>
+        <div class="fc-content">Three reasons: (1) <strong>enhanced detection</strong> — electronic systems capture errors paper missed; (2) <strong>learning curve</strong> — staff adapting to new workflows; (3) <strong>design flaws</strong> — system enables new error types. Persistent rises signal design problems requiring intervention.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-card" onclick="this.classList.toggle('flipped')">
+    <div class="fc-inner">
+      <div class="fc-front">
+        <div class="fc-label">Card 5 · BCMA</div>
+        <div class="fc-content">Five rights of BCMA and the Poon evidence.</div>
+        <div class="fc-hint">Tap to reveal</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-label">Answer</div>
+        <div class="fc-content"><strong>Right patient, drug, dose, route, time</strong> — verified by scanning patient wristband and medication. Poon et al. analysed 369,000 events: <strong>74% ↓</strong> in target adverse events; Charing Cross reduced non-definitive patient ID from 82.6% to 18.9%.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-card" onclick="this.classList.toggle('flipped')">
+    <div class="fc-inner">
+      <div class="fc-front">
+        <div class="fc-label">Card 6 · Workarounds</div>
+        <div class="fc-content">How many BCMA workarounds did Koppel identify, and what are the four root causes?</div>
+        <div class="fc-hint">Tap to reveal</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-label">Answer</div>
+        <div class="fc-content"><strong>15 distinct workarounds</strong> across five hospitals. Causes: (1) technical failures; (2) time pressure; (3) lack of awareness (agency / new staff); (4) workaround culture (normalisation of deviance).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-card" onclick="this.classList.toggle('flipped')">
+    <div class="fc-inner">
+      <div class="fc-front">
+        <div class="fc-label">Card 7 · CDS types</div>
+        <div class="fc-content">Active vs Passive decision support — define and give examples.</div>
+        <div class="fc-hint">Tap to reveal</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-label">Answer</div>
+        <div class="fc-content"><strong>Active:</strong> automatic interruptive alerts during workflow (allergy, interaction, dose-range checks). <strong>Passive:</strong> reference resources accessed when user seeks them (BNF, formulary, UpToDate). Active catches errors missed by clinicians but risks alert fatigue; passive provides depth but is easily ignored.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-card" onclick="this.classList.toggle('flipped')">
+    <div class="fc-inner">
+      <div class="fc-front">
+        <div class="fc-label">Card 8 · Warning fatigue</div>
+        <div class="fc-content">Huntemann finding and the structural fix.</div>
+        <div class="fc-hint">Tap to reveal</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-label">Answer</div>
+        <div class="fc-content"><strong>97% of allergy alerts overridden</strong> (Huntemann et al.). Fix = <strong>graded alerts</strong>: reserve interruptive alerts for high-severity events; minor interactions presented as passive information; track override rates and retire alerts &gt;80% override.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-card" onclick="this.classList.toggle('flipped')">
+    <div class="fc-inner">
+      <div class="fc-front">
+        <div class="fc-label">Card 9 · Hard stops</div>
+        <div class="fc-content">When are hard stops appropriate, and what is the Strom warning?</div>
+        <div class="fc-hint">Tap to reveal</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-label">Answer</div>
+        <div class="fc-content">Reserve hard stops for <strong>absolute contraindications and never-events</strong> (intrathecal vincristine, daily methotrexate). Strom et al. terminated a warfarin + co-trimoxazole hard-stop trial because it caused clinically significant treatment delays. Use soft alerts requiring justification for relative contraindications.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-card" onclick="this.classList.toggle('flipped')">
+    <div class="fc-inner">
+      <div class="fc-front">
+        <div class="fc-label">Card 10 · Magrabi</div>
+        <div class="fc-content">Free-text discrepancy rate and clinical consequence.</div>
+        <div class="fc-hint">Tap to reveal</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-label">Answer</div>
+        <div class="fc-content">Magrabi et al. analysed 2,914 prescriptions with free-text fields. <strong>16.1% had internal discrepancies</strong> between structured fields and free text; <strong>83.8% of those discrepancies led to adverse events</strong> (16.8% severe). Design principle: minimise free text; use structured fields with validation.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-card" onclick="this.classList.toggle('flipped')">
+    <div class="fc-inner">
+      <div class="fc-front">
+        <div class="fc-label">Card 11 · Standards stack</div>
+        <div class="fc-content">Name the five interoperability standards every EP system rests on.</div>
+        <div class="fc-hint">Tap to reveal</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-label">Answer</div>
+        <div class="fc-content"><strong>HL7 / FHIR</strong> (transport &amp; messaging), <strong>SNOMED CT</strong> (clinical terminology spine), <strong>dm+d / RxNorm</strong> (national medicines dictionary), <strong>LOINC</strong> (lab observations), <strong>GS1</strong> (barcode standard for BCMA).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc-card" onclick="this.classList.toggle('flipped')">
+    <div class="fc-inner">
+      <div class="fc-front">
+        <div class="fc-label">Card 12 · Sociotechnical</div>
+        <div class="fc-content">State the five sociotechnical lessons of EP in one phrase each.</div>
+        <div class="fc-hint">Tap to reveal</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-label">Answer</div>
+        <div class="fc-content">(1) EP ≠ plug-and-play; (2) Design determines benefit; (3) Culture matters; (4) Integrate, don't isolate; (5) Monitor and adapt. Technology is necessary but never sufficient.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</section>
+
+<!-- ============================================ -->
+<!-- MCQs MODULE -->
+<!-- ============================================ -->
+<section class="module" id="mcq">
+
+<div class="mod-head">
+  <h2>Standalone MCQs — Exam-Grade Bank</h2>
+  <p>Twelve advanced single-best-answer questions covering material that the cases did not exhaust. Each question is mapped explicitly to its lecture slide(s).</p>
+  <div class="meta">
+    <span class="meta-pill">12 questions</span>
+    <span class="meta-pill turq">5 options each</span>
+    <span class="meta-pill gold">Discriminative</span>
+    <span class="meta-pill warn">Advanced</span>
+  </div>
+</div>
+
+<div class="case-card"><div class="case-body">
+
+<div class="q-container" data-q="m1">
+  <div class="q-header"><span class="q-num">MCQ / 1</span><span class="q-type">Definitions</span></div>
+  <div class="q-body">
+    <p class="q-stem">A consultant describes their hospital's new system as "EP-equivalent CPOE." Which of the following is the most accurate interpretation of this description?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('m1','a')"><div class="mcq-letter">A</div><div class="mcq-text">The system has decision support, full administration tracking, and an integrated audit trail equivalent to a UK EP system.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m1','b')"><div class="mcq-letter">B</div><div class="mcq-text">The system captures prescriber order entry but may lack integrated decision support, administration recording, or both.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m1','c')"><div class="mcq-letter">C</div><div class="mcq-text">The system performs eTP between hospital and community pharmacies as its primary function.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m1','d')"><div class="mcq-letter">D</div><div class="mcq-text">The system is FDA-cleared for use in US hospitals only.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m1','e')"><div class="mcq-letter">E</div><div class="mcq-text">The system runs on closed-network architecture rather than wireless infrastructure.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('m1','b','mcq')">Submit</button></div>
+    <div class="explanation" id="exp-m1">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why B is correct</h6>
+        <p>"CPOE" is a US term that describes <strong>data capture only</strong>. A consultant calling something "EP-equivalent CPOE" is essentially describing CPOE — and the listener should treat that as a flag that decision support and administration modules may not be present, despite the marketing language. The lecture's terminology slide warns explicitly that these terms are often used loosely; the safe interpretation is the narrower one.</p>
+        <h6>Why each other option is wrong</h6>
+        <ul>
+          <li><strong>A.</strong> If decision support and administration tracking were present, the consultant would not need the "CPOE" qualifier. The phrase betrays narrower scope.</li>
+          <li><strong>C.</strong> eTP is community-based prescription transmission; not what CPOE describes.</li>
+          <li><strong>D.</strong> CPOE is the term, not the regulatory status. Distractor.</li>
+          <li><strong>E.</strong> Network architecture is not what the EP/CPOE/eTP terminology distinguishes.</li>
+        </ul>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>When a vendor or clinician hedges with composite labels ("EP-equivalent", "EHR-ready", "CDS-capable"), the precise functional description is almost always smaller than the label suggests.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 7 (EP vs CPOE vs eTP)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="m2">
+  <div class="q-header"><span class="q-num">MCQ / 2</span><span class="q-type">Components</span></div>
+  <div class="q-body">
+    <p class="q-stem">Which of the following is most accurately described as the integration layer of an EP system?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('m2','a')"><div class="mcq-letter">A</div><div class="mcq-text">The medicines database holding structured drug data with route, formulation, and dose granularity.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m2','b')"><div class="mcq-letter">B</div><div class="mcq-text">The active CDS engine that fires interruptive alerts during prescribing.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m2','c')"><div class="mcq-letter">C</div><div class="mcq-text">The set of interfaces and APIs that allow the EP system to exchange data with pharmacy, pathology, EHR, and discharge modules.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m2','d')"><div class="mcq-letter">D</div><div class="mcq-text">The administration module that records who gave what medication, when, with barcode support.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m2','e')"><div class="mcq-letter">E</div><div class="mcq-text">The audit-trail subsystem that logs every change for governance.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('m2','c','mcq')">Submit</button></div>
+    <div class="explanation" id="exp-m2">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why C is correct</h6>
+        <p>The integration layer is the set of <strong>interfaces and APIs</strong> that move data between the EP system and adjacent systems — pharmacy, pathology, EHR, discharge, supply chain. Each of the other options is a distinct component of the EP architecture in its own right.</p>
+        <h6>Why each other option is wrong</h6>
+        <ul>
+          <li><strong>A.</strong> Medicines database is the data layer; conceptually different.</li>
+          <li><strong>B.</strong> CDS engine is its own component, sitting on top of the data layer.</li>
+          <li><strong>D.</strong> Administration module is a workflow component, not an integration mechanism.</li>
+          <li><strong>E.</strong> Audit trail is a cross-cutting subsystem, not the integration layer.</li>
+        </ul>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>Architecture questions reward learners who can name and isolate each component (data, UI, CDS, integration, administration, audit). The components are six, not "the EP".</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 8 (Core components)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="m3">
+  <div class="q-header"><span class="q-num">MCQ / 3</span><span class="q-type">Evidence</span></div>
+  <div class="q-body">
+    <p class="q-stem">Fowlie et al. (Ayrshire, Scotland) reported significant reductions in inpatient prescribing and medicines-administration errors after EP, but no statistically significant reduction in discharge-prescribing errors. Which is the most plausible explanation?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('m3','a')"><div class="mcq-letter">A</div><div class="mcq-text">Discharge prescribing was already a more structured task with less baseline variability, so EP had less room to reduce error rates.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m3','b')"><div class="mcq-letter">B</div><div class="mcq-text">Discharge prescriptions in Scotland were not eligible for inclusion in the EP system at the time.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m3','c')"><div class="mcq-letter">C</div><div class="mcq-text">The Ayrshire study did not have sufficient sample size for any error category.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m3','d')"><div class="mcq-letter">D</div><div class="mcq-text">Discharge errors are predominantly administration errors, not prescribing errors.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m3','e')"><div class="mcq-letter">E</div><div class="mcq-text">Pharmacist intervention rates were higher at discharge, masking any EP effect.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('m3','a','mcq')">Submit</button></div>
+    <div class="explanation" id="exp-m3">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why A is correct</h6>
+        <p>The lecture's interpretation, drawn from Fowlie's discussion, is that <strong>discharge prescribing is more structured</strong> — fewer fields, more tightly templated, less variability in baseline practice — so EP has less room to add error-reduction value. The inpatient and administration phases hold most of the error volume; that is where EP's biggest absolute reductions sit.</p>
+        <h6>Why each other option is wrong</h6>
+        <ul>
+          <li><strong>B.</strong> Discharge prescribing was within scope of the Ayrshire EP system; the inclusion question is not the issue.</li>
+          <li><strong>C.</strong> Sample size was sufficient for inpatient and admin to reach significance, so the explanation cannot be a generic power problem.</li>
+          <li><strong>D.</strong> Discharge errors are prescribing errors at the discharge transition; not administration errors.</li>
+          <li><strong>E.</strong> Pharmacist intervention is roughly comparable across phases; not a documented confounder in this study.</li>
+        </ul>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>"Context matters" is the single most reusable phrase in EP-evidence essays. EP impact is heterogeneous across settings and phases, and that heterogeneity has design and clinical reasons.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 11 (Bates + Fowlie evidence)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="m4">
+  <div class="q-header"><span class="q-num">MCQ / 4</span><span class="q-type">CDS design</span></div>
+  <div class="q-body">
+    <p class="q-stem">In the high-usability / high-safety 2 × 2 matrix discussed in the lecture, which scenario is the most dangerous and most common failure pattern in real implementations?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('m4','a')"><div class="mcq-letter">A</div><div class="mcq-text">High safety, high usability — the design ideal that most systems aspire to.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m4','b')"><div class="mcq-letter">B</div><div class="mcq-text">High safety, low usability — clinicians develop workarounds that erode the safety benefit.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m4','c')"><div class="mcq-letter">C</div><div class="mcq-text">Low safety, high usability — clinicians use the system fluently but the system permits unsafe orders silently.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m4','d')"><div class="mcq-letter">D</div><div class="mcq-text">Low safety, low usability — the system is abandoned and reverted to paper.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m4','e')"><div class="mcq-letter">E</div><div class="mcq-text">All four quadrants are equally common in practice; no single quadrant dominates.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('m4','b','mcq')">Submit</button></div>
+    <div class="explanation" id="exp-m4">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why B is correct</h6>
+        <p>The most insidious quadrant is <strong>high safety, low usability</strong>: the system is built with extensive alerts, mandatory fields, and confirmations, but the burden on clinicians is intolerable. They develop workarounds — batch scanning, dummy entries, paper-then-input, alert dismissal habits — and the safety benefit erodes invisibly. The Koppel BCMA workaround literature is the canonical example. The system reads as safe on paper but is unsafe in practice.</p>
+        <h6>Why each other option is wrong</h6>
+        <ul>
+          <li><strong>A.</strong> The ideal quadrant; not a failure pattern.</li>
+          <li><strong>C.</strong> A real failure pattern (a CPOE without CDS), but generally less dangerous than B because the absence of safety controls is at least visible to a careful clinician.</li>
+          <li><strong>D.</strong> The system is rejected before damage is done; the project fails openly rather than the patient covertly.</li>
+          <li><strong>E.</strong> Empirically not true; the workaround quadrant dominates the literature.</li>
+        </ul>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>"Safety achieved by design but eroded by use" is the single most exam-worthy paradox in health informatics. Recognise it whenever workarounds appear in the stem.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 20 (2 × 2 safety × usability matrix) · Slide 16 (BCMA workarounds)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="m5">
+  <div class="q-header"><span class="q-num">MCQ / 5</span><span class="q-type">Workflow</span></div>
+  <div class="q-body">
+    <p class="q-stem">Which of the following is the strongest design control against omission errors in EP prescribing?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('m5','a')"><div class="mcq-letter">A</div><div class="mcq-text">A free-text comment field that allows the prescriber to clarify any item the structured form did not cover.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m5','b')"><div class="mcq-letter">B</div><div class="mcq-text">Required structured fields for route, frequency, and duration, with the order ineligible for signature until complete.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m5','c')"><div class="mcq-letter">C</div><div class="mcq-text">A pop-up at signing that asks "Have you completed all required fields?".</div></div>
+      <div class="mcq-option" onclick="selectMcq('m5','d')"><div class="mcq-letter">D</div><div class="mcq-text">An audit report run weekly that lists prescriptions with missing data.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m5','e')"><div class="mcq-letter">E</div><div class="mcq-text">Pharmacist verification at the time of dispensing.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('m5','b','mcq')">Submit</button></div>
+    <div class="explanation" id="exp-m5">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why B is correct</h6>
+        <p>Burton-on-Trent and Wirral implementations approached zero omission rates by enforcing <strong>required structured fields</strong> at the point of order signature. This is upstream control at the most effective layer of the workflow. Each other option either depends on the prescriber being already careful (A, C), or catches the error downstream after potential harm (D, E).</p>
+        <h6>Why each other option is wrong</h6>
+        <ul>
+          <li><strong>A.</strong> Free text reintroduces Magrabi-style discrepancies.</li>
+          <li><strong>C.</strong> A self-attestation prompt becomes click-through behaviour within days.</li>
+          <li><strong>D.</strong> Weekly audit is too downstream and post-hoc.</li>
+          <li><strong>E.</strong> Pharmacist verification is essential defence-in-depth, but it is not a design control on the prescribing event itself.</li>
+        </ul>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>For "strongest control" questions, position the answer at the most upstream point in the workflow that prevents the error from being created.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 21 (Workflow risks &amp; solutions)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="m6">
+  <div class="q-header"><span class="q-num">MCQ / 6</span><span class="q-type">Paediatrics</span></div>
+  <div class="q-body">
+    <p class="q-stem">Jani et al. reported a fall in prescribing-error rate from 77.4% to 4.8% in a paediatric renal cohort after EP implementation. Which error subtype accounted for most of this improvement?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('m6','a')"><div class="mcq-letter">A</div><div class="mcq-text">Drug-drug interaction errors caught by active CDS.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m6','b')"><div class="mcq-letter">B</div><div class="mcq-text">Omission errors — items missing from the prescription that EP forced to be specified.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m6','c')"><div class="mcq-letter">C</div><div class="mcq-text">Allergy-mismatch errors prevented by the EHR cross-check.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m6','d')"><div class="mcq-letter">D</div><div class="mcq-text">Wrong-patient errors prevented by BCMA at administration.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m6','e')"><div class="mcq-letter">E</div><div class="mcq-text">Therapeutic-duplication errors caught by class-level alerts.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('m6','b','mcq')">Submit</button></div>
+    <div class="explanation" id="exp-m6">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why B is correct</h6>
+        <p>Jani et al. attributed most of the improvement to <strong>omission errors</strong> — paper paediatric prescriptions frequently missed weight, route, or frequency, and EP forced these to be specified. The 77.4% baseline rate sounds extraordinary in adult terms, but reflects that paediatric prescriptions on paper routinely had multiple defects per chart, most counted as omissions.</p>
+        <h6>Why each other option is wrong</h6>
+        <ul>
+          <li><strong>A.</strong> DDI errors are not the dominant subtype in a renal-paediatric cohort whose error profile is dominated by dose adjustment, frequency, and weight.</li>
+          <li><strong>C.</strong> Allergy errors are a real EP benefit but a small fraction of overall paediatric prescribing errors.</li>
+          <li><strong>D.</strong> BCMA addresses administration, not prescribing.</li>
+          <li><strong>E.</strong> Duplication is not the dominant error in a renal-paediatric cohort focused on dose individualisation.</li>
+        </ul>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>Attribute paediatric improvements to omission control + weight-based dose calculation. Memorise the Jani 77.4% → 4.8% number and the Warwick 8.8% → 4.6% number for the discussion section of any EP essay.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 14 (Paediatric EP evidence)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="m7">
+  <div class="q-header"><span class="q-num">MCQ / 7</span><span class="q-type">BCMA limits</span></div>
+  <div class="q-body">
+    <p class="q-stem">Which of the following is a structural limitation of BCMA that BCMA itself cannot resolve?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('m7','a')"><div class="mcq-letter">A</div><div class="mcq-text">Nurses occasionally scan medications in batch at the start of shift rather than at the bedside.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m7','b')"><div class="mcq-letter">B</div><div class="mcq-text">Wireless coverage in older wards is inconsistent and creates scanning black-spots.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m7','c')"><div class="mcq-letter">C</div><div class="mcq-text">Compounded preparations and ward-prepared injectables do not carry manufacturer barcodes and require hospital-applied labels.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m7','d')"><div class="mcq-letter">D</div><div class="mcq-text">Agency staff do not know the scanning workflow on their first shift.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m7','e')"><div class="mcq-letter">E</div><div class="mcq-text">Nurses press the override button when a scan fails on the first attempt.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('m7','c','mcq')">Submit</button></div>
+    <div class="explanation" id="exp-m7">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why C is correct</h6>
+        <p>Items A, B, D, and E are all <strong>solvable workflow / infrastructure / culture problems</strong> within BCMA's scope. C is a <strong>structural limitation</strong>: BCMA cannot scan a barcode that does not exist on a compounded or repackaged product. The hospital must add a label — a process step BCMA is not designed for and cannot enforce. Original-packs requirement is the lecture's named structural constraint.</p>
+        <h6>Why each other option is wrong</h6>
+        <ul>
+          <li><strong>A.</strong> Workaround culture, addressable by training, audit, and design.</li>
+          <li><strong>B.</strong> Infrastructure problem, addressable by wireless investment.</li>
+          <li><strong>D.</strong> Awareness problem, addressable by induction and just-in-time training.</li>
+          <li><strong>E.</strong> Behaviour problem, addressable by display of compliance metrics and design of override logic.</li>
+        </ul>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>"Structural limitation" means a problem outside BCMA's design space. The question is testing whether you can separate structure from operations.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 17 (BCMA limitations)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="m8">
+  <div class="q-header"><span class="q-num">MCQ / 8</span><span class="q-type">CDS</span></div>
+  <div class="q-body">
+    <p class="q-stem">Seidling et al. reported that an in-house high-dose CDS algorithm fired on only 4.5% of prescriptions, and that clinicians overrode 75% of those alerts. Which is the most defensible interpretation?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('m8','a')"><div class="mcq-letter">A</div><div class="mcq-text">The algorithm was too aggressive and was generating unnecessary alerts.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m8','b')"><div class="mcq-letter">B</div><div class="mcq-text">The algorithm fired rarely (suggesting good specificity) but the high override rate suggests poor positive predictive value at the alert level — clinicians often had a defensible reason to continue.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m8','c')"><div class="mcq-letter">C</div><div class="mcq-text">75% override means 75% of patients received an unsafe dose.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m8','d')"><div class="mcq-letter">D</div><div class="mcq-text">The algorithm was successfully preventing 4.5% of prescribing errors.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m8','e')"><div class="mcq-letter">E</div><div class="mcq-text">In-house CDS rules are always inferior to vendor-supplied rules.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('m8','b','mcq')">Submit</button></div>
+    <div class="explanation" id="exp-m8">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why B is correct</h6>
+        <p>The 4.5% firing rate suggests the rule was reasonably specific (it didn't fire on routine prescriptions). But the 75% override rate means that, when it did fire, three-quarters of clinicians decided the alert was wrong — implying the alert's <strong>positive predictive value</strong> for an actual high-dose error was around 25%. This is the diagnostic-test framing of CDS performance: rare firing + high override = good specificity, weak PPV. Either the rule needs refinement, or the cases that genuinely require dose flexibility (renal/hepatic adjustment, paediatrics, oncology) need to be carved out.</p>
+        <h6>Why each other option is wrong</h6>
+        <ul>
+          <li><strong>A.</strong> If the algorithm were too aggressive, the firing rate would be higher than 4.5%.</li>
+          <li><strong>C.</strong> Override does not equal unsafe; it equals "clinician disagreed with the alert in this context".</li>
+          <li><strong>D.</strong> Cannot conclude prevention from firing alone; firing without harm is not prevention.</li>
+          <li><strong>E.</strong> An overgeneralisation; the lecture explicitly notes both in-house and vendor approaches have trade-offs.</li>
+        </ul>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>Treat any CDS metric like a diagnostic test: sensitivity, specificity, PPV, NPV. Override rate is informative only paired with firing rate.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 19 (CDS implementation issues — Seidling)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="m9">
+  <div class="q-header"><span class="q-num">MCQ / 9</span><span class="q-type">Workflow</span></div>
+  <div class="q-body">
+    <p class="q-stem">A nurse on a busy ward reports she cannot administer a regular dose of paracetamol to her patient at 14:00 because the EP system has a 4-hour PRN lockout active and the patient already received PRN paracetamol at 12:00. Which is the correct interpretation of this design behaviour?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('m9','a')"><div class="mcq-letter">A</div><div class="mcq-text">A design fault — regular orders should never be blocked by PRN lockouts; the lockout is checking the wrong scope.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m9','b')"><div class="mcq-letter">B</div><div class="mcq-text">Correct system behaviour — paracetamol total dose includes PRN doses for the 4-hour minimum interval and 24-hour ceiling check.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m9','c')"><div class="mcq-letter">C</div><div class="mcq-text">A network failure mimicking a lockout — the nurse should reset the connection and retry.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m9','d')"><div class="mcq-letter">D</div><div class="mcq-text">A pharmacy intervention — the pharmacist has on-hold the regular paracetamol pending review.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m9','e')"><div class="mcq-letter">E</div><div class="mcq-text">Alert fatigue — the lockout is firing falsely and should be overridden.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('m9','b','mcq')">Submit</button></div>
+    <div class="explanation" id="exp-m9">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why B is correct</h6>
+        <p>A correctly designed paracetamol dose check operates on <strong>total cumulative dose</strong>, regardless of whether the dose was prescribed regular or PRN. The minimum-interval rule (≥ 4 h between doses) and the 24-hour ceiling (≤ 4 g/day) apply to the patient, not the order type. So at 14:00, two hours after a 12:00 PRN dose, the lockout is correctly preventing a fifth-hour timing violation. The nurse should defer the 14:00 dose to 16:00 or contact the prescriber to review the PRN.</p>
+        <h6>Why each other option is wrong</h6>
+        <ul>
+          <li><strong>A.</strong> The opposite is true — checking total dose across order types is good design, not bad design.</li>
+          <li><strong>C.</strong> A network failure would not present as a coherent "4-hour lockout" message.</li>
+          <li><strong>D.</strong> An on-hold is a different state and would surface different messaging.</li>
+          <li><strong>E.</strong> Cannot assume false alert without checking the cumulative dose first; this is exactly the alert that should not be overridden.</li>
+        </ul>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>PRN-and-regular dose-checking is a classic design exam question. The correct system always reasons over the patient, not the order line.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 21 (Workflow design — PRN lockouts)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="m10">
+  <div class="q-header"><span class="q-num">MCQ / 10</span><span class="q-type">Standards</span></div>
+  <div class="q-body">
+    <p class="q-stem">Which standard provides the clinical-terminology spine that allows allergies, problems, and medications to be linked to one another in an EP system?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('m10','a')"><div class="mcq-letter">A</div><div class="mcq-text">HL7 v2.4 messaging.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m10','b')"><div class="mcq-letter">B</div><div class="mcq-text">FHIR R4 RESTful API.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m10','c')"><div class="mcq-letter">C</div><div class="mcq-text">SNOMED CT.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m10','d')"><div class="mcq-letter">D</div><div class="mcq-text">ICD-10-CM.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m10','e')"><div class="mcq-letter">E</div><div class="mcq-text">DICOM.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('m10','c','mcq')">Submit</button></div>
+    <div class="explanation" id="exp-m10">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why C is correct</h6>
+        <p><strong>SNOMED CT</strong> is the international clinical terminology spine that lets allergies, problems, procedures, and medicines be encoded with semantic relationships ("substance X is a beta-lactam", "diagnosis Y is a contraindication for substance Z"). dm+d and RxNorm sit on top of SNOMED for medicines specifically.</p>
+        <h6>Why each other option is wrong</h6>
+        <ul>
+          <li><strong>A.</strong> HL7 v2 is messaging — the envelope, not the content semantics.</li>
+          <li><strong>B.</strong> FHIR is a transport &amp; resource API; it carries SNOMED-coded data, but is not itself the terminology.</li>
+          <li><strong>D.</strong> ICD-10-CM is a classification for billing and epidemiology, not the relational spine for clinical reasoning.</li>
+          <li><strong>E.</strong> DICOM is for medical imaging, unrelated to medication terminology.</li>
+        </ul>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>HL7/FHIR = transport. SNOMED = terminology. dm+d/RxNorm = medicines dictionary. LOINC = lab observations. ICD-10 = classification. Memorise this five-line table.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 22 (Standards stack)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="m11">
+  <div class="q-header"><span class="q-num">MCQ / 11</span><span class="q-type">Governance</span></div>
+  <div class="q-body">
+    <p class="q-stem">Six months after EP go-live, prescribing-error reports rise by 15% above the paper baseline. The board is alarmed. What is the best initial response?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('m11','a')"><div class="mcq-letter">A</div><div class="mcq-text">Suspend EP and revert to paper until the cause is identified.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m11','b')"><div class="mcq-letter">B</div><div class="mcq-text">Conduct a structured root-cause review that disentangles enhanced detection from true error increases, identifies design and training contributors, and reports back on a defined timeline.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m11','c')"><div class="mcq-letter">C</div><div class="mcq-text">Switch off the decision-support module to reduce alert burden.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m11','d')"><div class="mcq-letter">D</div><div class="mcq-text">Run a system-wide retraining session for all prescribers.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m11','e')"><div class="mcq-letter">E</div><div class="mcq-text">Replace the EP vendor.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('m11','b','mcq')">Submit</button></div>
+    <div class="explanation" id="exp-m11">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why B is correct</h6>
+        <p>The lecture's case-study framing makes this a textbook answer. An apparent rise in errors after EP go-live can be artefact (better detection), real (design or training problems), or a mix. The board's first action is a <strong>structured RCA with a defined scope and timeline</strong>, not a knee-jerk reversal. This is the J-curve in operational form.</p>
+        <h6>Why each other option is wrong</h6>
+        <ul>
+          <li><strong>A.</strong> Reverting to paper would re-introduce illegibility, transcription, and lost-chart errors. Disproportionate.</li>
+          <li><strong>C.</strong> Switching off CDS removes a primary safety mechanism; alert fatigue is fixed by tuning, not by deletion.</li>
+          <li><strong>D.</strong> Premature; cannot prescribe training without diagnosis.</li>
+          <li><strong>E.</strong> Vendor change is a years-long, high-disruption decision; not an initial response.</li>
+        </ul>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>For governance scenarios, the highest-scoring answer is almost always "structured analysis first, intervention proportionate to findings."</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 12 (J-curve) · Slide 27 (Take-home: monitor and adapt)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="m12">
+  <div class="q-header"><span class="q-num">MCQ / 12</span><span class="q-type">Jordan context</span></div>
+  <div class="q-body">
+    <p class="q-stem">In the Jordanian healthcare landscape, which of the following best describes the current EP integration boundary?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('m12','a')"><div class="mcq-letter">A</div><div class="mcq-text">Hakeem provides a fully integrated single-record system across MoH, RMS, KHCC, JUH, KAUH, all private hospitals, and all community pharmacies.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m12','b')"><div class="mcq-letter">B</div><div class="mcq-text">Hakeem covers MoH, RMS, KHCC and a growing set of integrated facilities, while a substantial private-sector tail (private hospitals, most community pharmacies) operates on independent systems with limited interoperability — boundary errors concentrate at this seam.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m12','c')"><div class="mcq-letter">C</div><div class="mcq-text">Jordan operates exclusively on paper-based prescribing and has not yet adopted EP at any level.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m12','d')"><div class="mcq-letter">D</div><div class="mcq-text">JFDA mandates EP for all dispensing and has integrated all community pharmacies into a single eTP backbone.</div></div>
+      <div class="mcq-option" onclick="selectMcq('m12','e')"><div class="mcq-letter">E</div><div class="mcq-text">Jordan uses the UK NHS Spine directly as its national EHR backbone.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('m12','b','mcq')">Submit</button></div>
+    <div class="explanation" id="exp-m12">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why B is correct</h6>
+        <p>This is the accurate sociotechnical picture: Hakeem (Electronic Health Solutions, est. 2009) has progressively integrated MoH facilities, the Royal Medical Services, KHCC, and a growing list of teaching hospitals, but the private hospital sector and the community-pharmacy network are largely outside this footprint. Boundary errors — including the kind described in Case 2 — concentrate where data crosses between integrated and non-integrated systems. Recognising this seam is the foundation of any pragmatic EP-strategy answer.</p>
+        <h6>Why each other option is wrong</h6>
+        <ul>
+          <li><strong>A.</strong> Overstates Hakeem's footprint substantially.</li>
+          <li><strong>C.</strong> Factually incorrect — Hakeem is in active operation at major facilities.</li>
+          <li><strong>D.</strong> JFDA is the regulator; it does not operate community-pharmacy eTP infrastructure.</li>
+          <li><strong>E.</strong> No such relationship exists.</li>
+        </ul>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>For Jordan context questions, anchor on (1) the integration footprint, (2) the unintegrated tail, (3) the seam where boundary errors concentrate. This frame works for KHCC, JUH, KAUH, RMS, and private-sector questions alike.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 26 (Jordan context deep-dive) · Slide 23 (Community EP)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div></div>
+
+</section>
+
+<!-- ============================================ -->
+<!-- MATCHING (drag-and-drop) -->
+<!-- ============================================ -->
+<section class="module" id="match">
+
+<div class="mod-head">
+  <h2>Drag-and-Drop Matching</h2>
+  <p>Three matching exercises. Drag each item from the left pool to its target on the right. Submit to grade.</p>
+  <div class="meta">
+    <span class="meta-pill">3 sets</span>
+    <span class="meta-pill turq">Drag &amp; drop</span>
+    <span class="meta-pill gold">Tap on mobile</span>
+  </div>
+</div>
+
+<!-- MATCH 1: Studies → Findings -->
+<div class="case-card"><div class="case-body">
+  <h4>Match 1 — Landmark studies and their findings</h4>
+  <p>Drag each study (left) to the single finding it is best known for (right).</p>
+
+  <div class="match-container" data-match="match1">
+    <div class="match-pool">
+      <div class="match-col-title">Studies</div>
+      <div class="match-item" draggable="true" data-id="bates" data-correct="t-bates">Bates et al. (1998–1999)</div>
+      <div class="match-item" draggable="true" data-id="koppel" data-correct="t-koppel">Koppel et al. (2005)</div>
+      <div class="match-item" draggable="true" data-id="fowlie" data-correct="t-fowlie">Fowlie et al. (Ayrshire)</div>
+      <div class="match-item" draggable="true" data-id="poon" data-correct="t-poon">Poon et al.</div>
+      <div class="match-item" draggable="true" data-id="strom" data-correct="t-strom">Strom et al.</div>
+      <div class="match-item" draggable="true" data-id="huntemann" data-correct="t-huntemann">Huntemann et al.</div>
+      <div class="match-item" draggable="true" data-id="magrabi" data-correct="t-magrabi">Magrabi et al.</div>
+      <div class="match-item" draggable="true" data-id="jani" data-correct="t-jani">Jani et al.</div>
+    </div>
+    <div class="match-targets">
+      <div class="match-col-title">Findings</div>
+      <div class="match-target" data-target="t-bates"><span class="match-target-label">A · 17% ↓ preventable ADEs; 54% ↓ non-intercepted serious errors</span></div>
+      <div class="match-target" data-target="t-koppel"><span class="match-target-label">B · 22 EP-facilitated error types after 7 years; 15 BCMA workarounds</span></div>
+      <div class="match-target" data-target="t-fowlie"><span class="match-target-label">C · UK inpatient errors 7.4% → 4.7%; discharge non-significant</span></div>
+      <div class="match-target" data-target="t-poon"><span class="match-target-label">D · 369,000 events, 74% ↓ target adverse events with BCMA</span></div>
+      <div class="match-target" data-target="t-strom"><span class="match-target-label">E · Warfarin + co-trimoxazole hard-stop trial terminated for delays</span></div>
+      <div class="match-target" data-target="t-huntemann"><span class="match-target-label">F · 97% of allergy alerts overridden — warning fatigue</span></div>
+      <div class="match-target" data-target="t-magrabi"><span class="match-target-label">G · 16.1% free-text discrepancies; 83.8% led to AEs</span></div>
+      <div class="match-target" data-target="t-jani"><span class="match-target-label">H · Paediatric renal cohort 77.4% → 4.8%, mostly omissions</span></div>
+    </div>
+  </div>
+  <div class="q-actions" style="padding:0 0 6px 0">
+    <button class="btn-submit" onclick="submitMatch('match1')">Submit Match 1</button>
+  </div>
+  <div class="explanation" id="exp-match1">
+    <div class="exp-header"></div>
+    <div class="exp-body">
+      <h6>Reasoning behind each pair</h6>
+      <ul>
+        <li><strong>Bates → A.</strong> Brigham and Women's Hospital landmark CPOE evaluations. The 17% / 54% / 84% / 81% pattern is the classic citation set.</li>
+        <li><strong>Koppel → B.</strong> Pennsylvania commercial EP system, two foundational papers on error types and BCMA workarounds.</li>
+        <li><strong>Fowlie → C.</strong> Ayrshire, Scotland — the canonical UK before/after EP study.</li>
+        <li><strong>Poon → D.</strong> Multi-hospital BCMA evaluation, the largest event-count series.</li>
+        <li><strong>Strom → E.</strong> The pivotal hard-stop cautionary tale.</li>
+        <li><strong>Huntemann → F.</strong> The 97% override rate that defined "warning fatigue" empirically.</li>
+        <li><strong>Magrabi → G.</strong> The free-text discrepancy paper that anchors design recommendations against free text.</li>
+        <li><strong>Jani → H.</strong> Paediatric renal cohort — the dramatic omission-error reduction figure.</li>
+      </ul>
+      <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>Memorise these eight name-and-finding pairs. They cover most evidence questions in EP exams.</p></div>
+    </div>
+  </div>
+</div></div>
+
+<!-- MATCH 2: Standards → Layer -->
+<div class="case-card"><div class="case-body">
+  <h4>Match 2 — Standards and the layer they serve</h4>
+  <p>Match each standard to the architectural layer in which it operates.</p>
+
+  <div class="match-container" data-match="match2">
+    <div class="match-pool">
+      <div class="match-col-title">Standards</div>
+      <div class="match-item" draggable="true" data-id="hl7" data-correct="t-transport">HL7 v2 / FHIR</div>
+      <div class="match-item" draggable="true" data-id="snomed" data-correct="t-terminology">SNOMED CT</div>
+      <div class="match-item" draggable="true" data-id="dmd" data-correct="t-meds">dm+d / RxNorm</div>
+      <div class="match-item" draggable="true" data-id="loinc" data-correct="t-labs">LOINC</div>
+      <div class="match-item" draggable="true" data-id="gs1" data-correct="t-bcma">GS1 / EAN</div>
+      <div class="match-item" draggable="true" data-id="icd" data-correct="t-classify">ICD-10</div>
+    </div>
+    <div class="match-targets">
+      <div class="match-col-title">Layer</div>
+      <div class="match-target" data-target="t-transport"><span class="match-target-label">A · Transport / messaging</span></div>
+      <div class="match-target" data-target="t-terminology"><span class="match-target-label">B · Clinical terminology spine</span></div>
+      <div class="match-target" data-target="t-meds"><span class="match-target-label">C · National medicines dictionary</span></div>
+      <div class="match-target" data-target="t-labs"><span class="match-target-label">D · Laboratory observations</span></div>
+      <div class="match-target" data-target="t-bcma"><span class="match-target-label">E · Physical pack barcode (BCMA)</span></div>
+      <div class="match-target" data-target="t-classify"><span class="match-target-label">F · Diagnostic classification (billing / epidemiology)</span></div>
+    </div>
+  </div>
+  <div class="q-actions" style="padding:0 0 6px 0">
+    <button class="btn-submit" onclick="submitMatch('match2')">Submit Match 2</button>
+  </div>
+  <div class="explanation" id="exp-match2">
+    <div class="exp-header"></div>
+    <div class="exp-body">
+      <h6>Reasoning behind each pair</h6>
+      <ul>
+        <li><strong>HL7 / FHIR → Transport.</strong> The envelope and API for moving structured clinical data; carries SNOMED-coded payloads.</li>
+        <li><strong>SNOMED CT → Terminology.</strong> The semantic spine for problems, allergies, procedures, and medicines relationships.</li>
+        <li><strong>dm+d / RxNorm → Medicines dictionary.</strong> The medicine-specific vocabulary aligned to SNOMED CT.</li>
+        <li><strong>LOINC → Labs.</strong> Universal codes for laboratory and clinical observations.</li>
+        <li><strong>GS1 → BCMA.</strong> Physical-pack barcode for point-of-administration verification.</li>
+        <li><strong>ICD-10 → Classification.</strong> Diagnosis classification for billing, casemix, and epidemiology — not a clinical-reasoning spine.</li>
+      </ul>
+      <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>The five-layer mental model — transport, terminology, medicines, labs, classification — is enough to answer the majority of standards questions in informatics exams.</p></div>
+    </div>
+  </div>
+</div></div>
+
+<!-- MATCH 3: Risks → Solutions -->
+<div class="case-card"><div class="case-body">
+  <h4>Match 3 — Prescribing risks and design solutions</h4>
+  <p>Match each prescribing risk to the most direct design solution.</p>
+
+  <div class="match-container" data-match="match3">
+    <div class="match-pool">
+      <div class="match-col-title">Risk</div>
+      <div class="match-item" draggable="true" data-id="lookalike" data-correct="t-tallman">Selecting hydrALAzine when hydrOXYzine was intended</div>
+      <div class="match-item" draggable="true" data-id="incomplete" data-correct="t-required">Skipping the route or frequency field at signature</div>
+      <div class="match-item" draggable="true" data-id="freetext" data-correct="t-structured">Free-text dose contradicting the structured dose</div>
+      <div class="match-item" draggable="true" data-id="default" data-correct="t-bands">Adult-default 240 mg accepted for an 18 kg child</div>
+      <div class="match-item" draggable="true" data-id="alertfat" data-correct="t-graded">Override of a clinically critical interaction alert</div>
+      <div class="match-item" draggable="true" data-id="discont" data-correct="t-rec">Patient continues a stopped medicine after discharge</div>
+    </div>
+    <div class="match-targets">
+      <div class="match-col-title">Solution</div>
+      <div class="match-target" data-target="t-tallman"><span class="match-target-label">A · Tall-man lettering and image-augmented selection</span></div>
+      <div class="match-target" data-target="t-required"><span class="match-target-label">B · Required structured fields blocking signature until complete</span></div>
+      <div class="match-target" data-target="t-structured"><span class="match-target-label">C · Replace free text with structured fields and validation</span></div>
+      <div class="match-target" data-target="t-bands"><span class="match-target-label">D · Age- and weight-banded dose-ceiling CDS rules</span></div>
+      <div class="match-target" data-target="t-graded"><span class="match-target-label">E · Graded alerts with severity tiers and override-rate audit</span></div>
+      <div class="match-target" data-target="t-rec"><span class="match-target-label">F · Automatic reconciliation against the receiving system's repeat record</span></div>
+    </div>
+  </div>
+  <div class="q-actions" style="padding:0 0 6px 0">
+    <button class="btn-submit" onclick="submitMatch('match3')">Submit Match 3</button>
+  </div>
+  <div class="explanation" id="exp-match3">
+    <div class="exp-header"></div>
+    <div class="exp-body">
+      <h6>Design principle behind each pair</h6>
+      <p>Each risk has a most-upstream design fix. The exam-grade move is to pick the fix that prevents the error <em>at the point of creation</em> rather than catching it downstream:</p>
+      <ul>
+        <li>Lookalike → tall-man + images at the moment of selection.</li>
+        <li>Omission → required fields at the moment of signing.</li>
+        <li>Free-text contradiction → structured fields at the moment of entry.</li>
+        <li>Default acceptance → banded ceilings at the moment of dose computation.</li>
+        <li>Alert override → tiered alerts at the moment of presentation.</li>
+        <li>Discontinuation failure → reconciliation at the moment of receipt.</li>
+      </ul>
+      <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>"Most upstream" is the single most reliable design heuristic for choosing between distractors in this style of question.</p></div>
+    </div>
+  </div>
+</div></div>
+
+</section>
+
+<!-- ============================================ -->
+<!-- MIXED BAG -->
+<!-- ============================================ -->
+<section class="module" id="mixed">
+
+<div class="mod-head">
+  <h2>Mixed Bag — Multi-Modality Practice</h2>
+  <p>Five short items in mixed formats: True/False, single-best-answer, and reasoning. Designed to vary recognition cues so that practice does not collapse to a single format.</p>
+  <div class="meta">
+    <span class="meta-pill">5 items</span>
+    <span class="meta-pill turq">Mixed format</span>
+    <span class="meta-pill gold">Synthesis</span>
+  </div>
+</div>
+
+<div class="case-card"><div class="case-body">
+
+<div class="q-container" data-q="x1">
+  <div class="q-header"><span class="q-num">MIX / 1</span><span class="q-type">True / False</span></div>
+  <div class="q-body">
+    <p class="q-stem">Statement: a CPOE system without integrated decision support has been shown to reduce overall medication errors by approximately the same magnitude as a full EP system.</p>
+    <div class="tf-options">
+      <div class="tf-option" onclick="selectTf('x1','t')">TRUE</div>
+      <div class="tf-option" onclick="selectTf('x1','f')">FALSE</div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitTf('x1','f','mixed')">Submit</button></div>
+    <div class="explanation" id="exp-x1">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why FALSE is correct</h6>
+        <p>CPOE without CDS reduces transcription and legibility errors but does not reduce dose-related, allergy-related, interaction-related, or duplication errors at the same magnitude. The Bates and subsequent literature shows that <strong>most of the error reduction in EP comes from CDS</strong>, not from data capture alone. Comparing CPOE-only to full EP without distinguishing CDS presence is a meta-analytic trap.</p>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>Whenever a stem says "approximately the same magnitude" across two interventions, it is usually conflating heterogeneous systems. Examine the CDS layer.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 7 · Slide 11</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="x2">
+  <div class="q-header"><span class="q-num">MIX / 2</span><span class="q-type">MCQ</span></div>
+  <div class="q-body">
+    <p class="q-stem">Which is the most defensible governance metric for an EP CDS program?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('x2','a')"><div class="mcq-letter">A</div><div class="mcq-text">Total number of alerts fired per month.</div></div>
+      <div class="mcq-option" onclick="selectMcq('x2','b')"><div class="mcq-letter">B</div><div class="mcq-text">Override rate by alert severity tier, paired with the firing-rate denominator and sampled outcome audits for high-tier overrides.</div></div>
+      <div class="mcq-option" onclick="selectMcq('x2','c')"><div class="mcq-letter">C</div><div class="mcq-text">Mean time per prescriber per prescription.</div></div>
+      <div class="mcq-option" onclick="selectMcq('x2','d')"><div class="mcq-letter">D</div><div class="mcq-text">Number of CDS rules in production.</div></div>
+      <div class="mcq-option" onclick="selectMcq('x2','e')"><div class="mcq-letter">E</div><div class="mcq-text">Patient-satisfaction scores from the discharge survey.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('x2','b','mixed')">Submit</button></div>
+    <div class="explanation" id="exp-x2">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why B is correct</h6>
+        <p>Effective CDS governance requires three signals together: <strong>firing rate</strong> (denominator), <strong>override rate stratified by severity</strong> (signal of fatigue or low PPV), and <strong>outcome audits on a sample of high-severity overrides</strong> (whether the override was clinically justified). Each option in isolation is misleading; only B combines the necessary signals.</p>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>For governance metric questions, prefer the option that names a denominator, a stratification, and a sampled audit.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 19 (CDS implementation issues) · Slide 27</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="x3">
+  <div class="q-header"><span class="q-num">MIX / 3</span><span class="q-type">True / False</span></div>
+  <div class="q-body">
+    <p class="q-stem">Statement: integrating EP with the EHR makes prescribers more likely to consult prescribing history before ordering compared with a standalone EP system.</p>
+    <div class="tf-options">
+      <div class="tf-option" onclick="selectTf('x3','t')">TRUE</div>
+      <div class="tf-option" onclick="selectTf('x3','f')">FALSE</div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitTf('x3','t','mixed')">Submit</button></div>
+    <div class="explanation" id="exp-x3">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why TRUE is correct</h6>
+        <p>The lecture cites US evidence that physicians are more likely to consult prescribing history when EP is integrated with the EHR than when EP is a standalone module. The mechanism is straightforward — context-switching cost falls when the history is one click away rather than a separate login or screen.</p>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>Integration questions reward learners who can articulate the workflow mechanism (cost of context-switching) rather than just the conclusion.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 22 (EHR integration)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="x4">
+  <div class="q-header"><span class="q-num">MIX / 4</span><span class="q-type">MCQ</span></div>
+  <div class="q-body">
+    <p class="q-stem">Which of the following is the strongest argument <strong>against</strong> deploying a hard stop on all paediatric high-dose prescriptions?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('x4','a')"><div class="mcq-letter">A</div><div class="mcq-text">Hard stops are technically infeasible in modern EP architectures.</div></div>
+      <div class="mcq-option" onclick="selectMcq('x4','b')"><div class="mcq-letter">B</div><div class="mcq-text">A hard stop transforms a soft alert into an absolute block, which can delay urgently needed treatment in cases where the high-dose flag is a false positive (renal indications, oncology, sepsis dosing).</div></div>
+      <div class="mcq-option" onclick="selectMcq('x4','c')"><div class="mcq-letter">C</div><div class="mcq-text">Paediatric prescribing should never be subject to electronic constraints.</div></div>
+      <div class="mcq-option" onclick="selectMcq('x4','d')"><div class="mcq-letter">D</div><div class="mcq-text">Hard stops violate Ministry of Health regulations.</div></div>
+      <div class="mcq-option" onclick="selectMcq('x4','e')"><div class="mcq-letter">E</div><div class="mcq-text">Hard stops require additional licensing fees from the EP vendor.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('x4','b','mixed')">Submit</button></div>
+    <div class="explanation" id="exp-x4">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why B is correct</h6>
+        <p>This is the Strom argument applied to paediatrics. Hard stops are appropriate for absolute contraindications (intrathecal vincristine, daily methotrexate); they are inappropriate for situations where clinical judgment legitimately exceeds default ceilings (oncology dose intensification, sepsis loading doses, renal-replacement therapy). Blanket hard stops on paediatric high-dose prescriptions over-trigger and delay urgent care.</p>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>The Strom warfarin/co-trimoxazole study is the lemma you should cite whenever the question asks about hard stops outside of absolute never-events.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 20 (Hard stops &amp; 2 × 2 matrix) · Slide 14 (Paediatric)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="q-container" data-q="x5">
+  <div class="q-header"><span class="q-num">MIX / 5</span><span class="q-type">MCQ</span></div>
+  <div class="q-body">
+    <p class="q-stem">A pharmacist proposes routing the override-justification text from every overridden alert into a free-text field that is then sampled monthly for governance review. Which is the most accurate critique of this proposal?</p>
+    <div class="mcq-options">
+      <div class="mcq-option" onclick="selectMcq('x5','a')"><div class="mcq-letter">A</div><div class="mcq-text">Free-text override justifications generate Magrabi-style discrepancies and unstructured data that are slow and error-prone to review at scale; the proposal would be improved by a structured-reason picker plus optional free-text comment.</div></div>
+      <div class="mcq-option" onclick="selectMcq('x5','b')"><div class="mcq-letter">B</div><div class="mcq-text">Override-justification capture is illegal in most jurisdictions.</div></div>
+      <div class="mcq-option" onclick="selectMcq('x5','c')"><div class="mcq-letter">C</div><div class="mcq-text">Override audits do not improve safety under any circumstances.</div></div>
+      <div class="mcq-option" onclick="selectMcq('x5','d')"><div class="mcq-letter">D</div><div class="mcq-text">Sampling is statistically unsound; only 100% review is acceptable.</div></div>
+      <div class="mcq-option" onclick="selectMcq('x5','e')"><div class="mcq-letter">E</div><div class="mcq-text">Monthly is too infrequent — daily review is the only acceptable cadence.</div></div>
+    </div>
+    <div class="q-actions"><button class="btn-submit" onclick="submitMcq('x5','a','mixed')">Submit</button></div>
+    <div class="explanation" id="exp-x5">
+      <div class="exp-header"></div>
+      <div class="exp-body">
+        <h6>Why A is correct</h6>
+        <p>A is the precise sociotechnical critique: free text is review-hostile at scale and reintroduces Magrabi-class data-quality problems. A structured reason-code picker (e.g., "patient already on this drug", "renal-adjusted dose, intentional", "drug stopped before alert read") makes monthly governance review feasible. Free-text comments can remain optional for the rare unstructured situation.</p>
+        <div class="exp-tip"><span class="exp-tip-label">💡 Examiner's tip</span><p>"Structured reason picker + optional free text" is the canonical compromise between data quality and clinical nuance.</p></div>
+        <div class="exp-mapping"><strong>Lecture mapping:</strong> Slide 21 (Free-text issues) · Slide 19 (CDS governance)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div></div>
+
+</section>
+
+<!-- ============================================ -->
+<!-- SUMMARY -->
+<!-- ============================================ -->
+<section class="module" id="summary">
+
+<div class="mod-head">
+  <h2>Your Score &amp; Take-Home Pack</h2>
+  <p>Live tally of attempted and correct items, plus the exit-ticket synthesis from across all modules.</p>
+  <div class="meta">
+    <span class="meta-pill">Live tally</span>
+    <span class="meta-pill turq">Auto-updates</span>
+  </div>
+</div>
+
+<div class="summary-box">
+  <h3>Module Tally</h3>
+  <p style="color:var(--muted);font-size:14px">Submitted answers across all modules</p>
+  <div class="summary-stats" id="summaryStats">
+    <div class="summary-stat"><span class="v" id="ssAttempted">0</span><span class="l">Attempted</span></div>
+    <div class="summary-stat"><span class="v" id="ssCorrect">0</span><span class="l">Correct</span></div>
+    <div class="summary-stat"><span class="v" id="ssAccuracy">—</span><span class="l">Accuracy</span></div>
+    <div class="summary-stat"><span class="v" id="ssTotal">30</span><span class="l">Total Items</span></div>
+  </div>
+</div>
+
+<div class="case-card"><div class="case-body">
+  <h4>The five sociotechnical lessons in one page</h4>
+  <ol>
+    <li><strong>EP ≠ plug-and-play.</strong> Implementation is a continuous program, not a project with an end date.</li>
+    <li><strong>Design determines benefit.</strong> The interface, the workflow, the alert configuration, and the data structure decide whether the system reduces or creates errors.</li>
+    <li><strong>Culture matters.</strong> Engagement, ownership, and just-culture incident reporting decide whether the system is embraced or worked around.</li>
+    <li><strong>Integrate, don't isolate.</strong> EP is one component in a sociotechnical fabric — EHR, pharmacy, pathology, discharge — and only delivers when the fabric is woven together.</li>
+    <li><strong>Monitor and adapt.</strong> Post-implementation surveillance is the safety mechanism that catches the J-curve, the workarounds, the unintended consequences. No system is "done" the day it goes live.</li>
+  </ol>
+
+  <h4 class="turq">For your exam</h4>
+  <ul>
+    <li>Memorise the eight study-finding pairs (Bates, Koppel, Fowlie, Poon, Strom, Huntemann, Magrabi, Jani).</li>
+    <li>Recite the standards stack (HL7/FHIR, SNOMED CT, dm+d/RxNorm, LOINC, GS1, ICD-10) and which layer each occupies.</li>
+    <li>Reach for the safety / usability 2 × 2 matrix whenever a question describes workarounds.</li>
+    <li>Prefer "most upstream design control" over downstream catches when an MCQ asks for the strongest intervention.</li>
+    <li>For Jordan questions: name the integration footprint (Hakeem at MoH/RMS/KHCC), the unintegrated tail (private hospitals, most community pharmacies), and the seam between them.</li>
+  </ul>
+
+  <h4 class="warn">Common exam traps to avoid</h4>
+  <ul>
+    <li>Confusing CPOE with EP — CPOE is data capture only.</li>
+    <li>Treating override rate as a stand-alone metric without firing-rate denominator.</li>
+    <li>Recommending hard stops outside of absolute never-events.</li>
+    <li>Reading paper-revert proposals as a defensible response to a J-curve increase.</li>
+    <li>Treating Hakeem as if it integrated the entire Jordanian health sector.</li>
+  </ul>
+
+  <div style="margin-top:24px;padding:18px 22px;background:var(--purple-pale);border-radius:12px">
+    <strong style="color:var(--purple-deep)">Companion materials</strong>
+    <p style="margin:8px 0 0;font-size:14px;color:var(--ink)">
+      Use the <strong>EP Lecture Slides</strong> for the conceptual and Jordan-context material, and the <strong>EP Study Guide (DOCX)</strong> for the exhaustive printable reference. The button at the top of this page downloads the study guide directly.
+    </p>
+  </div>
+</div></div>
+
+</section>
+
+</main>
+
+<!-- ============================================ -->
+<!-- TOAST -->
+<!-- ============================================ -->
+<div id="toast" class="toast"></div>
+
+<script>
+/* ============================================ */
+/* STATE                                        */
+/* ============================================ */
+const state = {
+  answered: {},            // qid -> 'correct' | 'incorrect'
+  matchPlacements: {},     // matchId -> { itemId: targetId }
+};
+
+/* ============================================ */
+/* MODULE NAVIGATION                            */
+/* ============================================ */
+function showMod(id){
+  document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+  document.querySelectorAll('.mod-nav-btn').forEach(b => b.classList.remove('active'));
+  const mod = document.getElementById(id);
+  if(mod) mod.classList.add('active');
+  const btn = document.querySelector(`.mod-nav-btn[data-mod="${id}"]`);
+  if(btn) btn.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  if(id === 'summary') refreshSummary();
+}
+
+/* ============================================ */
+/* MCQ                                          */
+/* ============================================ */
+function selectMcq(qid, choice){
+  if(state.answered[qid]) return;
+  const container = document.querySelector(`[data-q="${qid}"]`);
+  if(!container) return;
+  container.querySelectorAll('.mcq-option').forEach(o => o.classList.remove('selected'));
+  const opts = container.querySelectorAll('.mcq-option');
+  const idx = ['a','b','c','d','e'].indexOf(choice);
+  if(idx >= 0 && opts[idx]) opts[idx].classList.add('selected');
+  container.dataset.selected = choice;
+}
+
+function submitMcq(qid, correct, modId){
+  if(state.answered[qid]) return;
+  const container = document.querySelector(`[data-q="${qid}"]`);
+  if(!container) return;
+  const choice = container.dataset.selected;
+  if(!choice){ showToast('Select an option first'); return; }
+  const isCorrect = choice === correct;
+  const opts = container.querySelectorAll('.mcq-option');
+  const correctIdx = ['a','b','c','d','e'].indexOf(correct);
+  const choiceIdx = ['a','b','c','d','e'].indexOf(choice);
+  opts.forEach(o => { o.classList.add('disabled'); o.style.cursor = 'default'; });
+  if(opts[correctIdx]) opts[correctIdx].classList.add('correct');
+  if(!isCorrect && opts[choiceIdx]) opts[choiceIdx].classList.add('incorrect');
+  const exp = document.getElementById(`exp-${qid}`);
+  if(exp){
+    exp.classList.add('show');
+    const head = exp.querySelector('.exp-header');
+    if(head){
+      head.classList.add(isCorrect ? 'correct' : 'incorrect');
+      head.textContent = isCorrect ? '✓ Correct' : '✗ Not quite';
+    }
+  }
+  const btn = container.querySelector('.btn-submit');
+  if(btn){ btn.disabled = true; btn.textContent = isCorrect ? '✓ Submitted' : '✗ Submitted'; }
+  state.answered[qid] = isCorrect ? 'correct' : 'incorrect';
+  showToast(isCorrect ? 'Correct — explanation revealed' : 'Not quite — explanation revealed');
+  refreshSummary();
+}
+
+/* ============================================ */
+/* TRUE / FALSE                                 */
+/* ============================================ */
+function selectTf(qid, choice){
+  if(state.answered[qid]) return;
+  const container = document.querySelector(`[data-q="${qid}"]`);
+  if(!container) return;
+  container.querySelectorAll('.tf-option').forEach(o => o.classList.remove('selected'));
+  const idx = choice === 't' ? 0 : 1;
+  const opts = container.querySelectorAll('.tf-option');
+  if(opts[idx]) opts[idx].classList.add('selected');
+  container.dataset.selected = choice;
+}
+
+function submitTf(qid, correct, modId){
+  if(state.answered[qid]) return;
+  const container = document.querySelector(`[data-q="${qid}"]`);
+  if(!container) return;
+  const choice = container.dataset.selected;
+  if(!choice){ showToast('Select TRUE or FALSE first'); return; }
+  const isCorrect = choice === correct;
+  const opts = container.querySelectorAll('.tf-option');
+  const correctIdx = correct === 't' ? 0 : 1;
+  const choiceIdx = choice === 't' ? 0 : 1;
+  opts.forEach(o => { o.style.cursor = 'default'; o.style.pointerEvents = 'none'; });
+  if(opts[correctIdx]) opts[correctIdx].classList.add('correct');
+  if(!isCorrect && opts[choiceIdx]) opts[choiceIdx].classList.add('incorrect');
+  const exp = document.getElementById(`exp-${qid}`);
+  if(exp){
+    exp.classList.add('show');
+    const head = exp.querySelector('.exp-header');
+    if(head){
+      head.classList.add(isCorrect ? 'correct' : 'incorrect');
+      head.textContent = isCorrect ? '✓ Correct' : '✗ Not quite';
+    }
+  }
+  const btn = container.querySelector('.btn-submit');
+  if(btn){ btn.disabled = true; btn.textContent = isCorrect ? '✓ Submitted' : '✗ Submitted'; }
+  state.answered[qid] = isCorrect ? 'correct' : 'incorrect';
+  showToast(isCorrect ? 'Correct — explanation revealed' : 'Not quite — explanation revealed');
+  refreshSummary();
+}
+
+/* ============================================ */
+/* DRAG & DROP MATCHING                         */
+/* ============================================ */
+let dragSrc = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.match-item').forEach(item => {
+    item.addEventListener('dragstart', e => {
+      dragSrc = item;
+      item.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', item.dataset.id);
+    });
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging');
+      dragSrc = null;
+    });
+    /* tap-to-place fallback for mobile */
+    item.addEventListener('click', () => {
+      if(item.classList.contains('placed')) return;
+      document.querySelectorAll('.match-item').forEach(o => o.classList.remove('selected'));
+      item.classList.add('selected');
+      dragSrc = item;
+    });
+  });
+
+  document.querySelectorAll('.match-target').forEach(target => {
+    target.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      target.classList.add('over');
+    });
+    target.addEventListener('dragleave', () => target.classList.remove('over'));
+    target.addEventListener('drop', e => {
+      e.preventDefault();
+      target.classList.remove('over');
+      placeItem(dragSrc, target);
+    });
+    target.addEventListener('click', () => {
+      if(dragSrc && dragSrc.classList.contains('selected')){
+        placeItem(dragSrc, target);
+        dragSrc.classList.remove('selected');
+        dragSrc = null;
+      }
+    });
+  });
+});
+
+function placeItem(item, target){
+  if(!item || !target) return;
+  /* Remove any existing placed item from this target */
+  target.querySelectorAll('.match-item').forEach(existing => {
+    /* Return existing item to its pool */
+    const pool = item.parentElement;
+    pool.appendChild(existing);
+    existing.classList.remove('placed');
+  });
+  /* Place the new item */
+  target.appendChild(item);
+  item.classList.add('placed');
+  /* Track placement */
+  const matchId = target.closest('.match-container').dataset.match;
+  if(!state.matchPlacements[matchId]) state.matchPlacements[matchId] = {};
+  /* clear any prior placement of this item */
+  Object.keys(state.matchPlacements[matchId]).forEach(k => {
+    if(state.matchPlacements[matchId][k] === item.dataset.id) delete state.matchPlacements[matchId][k];
+  });
+  state.matchPlacements[matchId][target.dataset.target] = item.dataset.id;
+}
+
+function submitMatch(matchId){
+  if(state.answered[matchId]) return;
+  const container = document.querySelector(`[data-match="${matchId}"]`);
+  if(!container) return;
+  const items = container.querySelectorAll('.match-item');
+  let total = items.length;
+  let correct = 0;
+  items.forEach(item => {
+    if(item.classList.contains('placed')){
+      const target = item.parentElement;
+      if(target.dataset.target === item.dataset.correct){
+        target.classList.add('correct');
+        correct++;
+      } else {
+        target.classList.add('incorrect');
+      }
+    }
+  });
+  /* Reveal explanation */
+  const exp = document.getElementById(`exp-${matchId}`);
+  if(exp){
+    exp.classList.add('show');
+    const head = exp.querySelector('.exp-header');
+    if(head){
+      const allRight = correct === total;
+      head.classList.add(allRight ? 'correct' : 'incorrect');
+      head.textContent = `${correct} / ${total} correct`;
+    }
+  }
+  /* Disable further interaction */
+  items.forEach(item => { item.draggable = false; item.style.cursor = 'default'; });
+  const btn = container.parentElement.querySelector('.btn-submit');
+  if(btn){ btn.disabled = true; btn.textContent = `${correct}/${total} · Submitted`; }
+  /* Score: each match counts as 1 question (proportional) */
+  state.answered[matchId] = (correct === total) ? 'correct' : 'incorrect';
+  showToast(`${correct} / ${total} correct on this match`);
+  refreshSummary();
+}
+
+/* ============================================ */
+/* SUMMARY / PROGRESS                           */
+/* ============================================ */
+function refreshSummary(){
+  const attempted = Object.keys(state.answered).length;
+  const correct = Object.values(state.answered).filter(v => v === 'correct').length;
+  const accuracy = attempted > 0 ? Math.round((correct / attempted) * 100) + '%' : '—';
+  const a = document.getElementById('ssAttempted');
+  const c = document.getElementById('ssCorrect');
+  const x = document.getElementById('ssAccuracy');
+  if(a) a.textContent = attempted;
+  if(c) c.textContent = correct;
+  if(x) x.textContent = accuracy;
+  /* Progress bar = attempted / total */
+  const total = 30; // 5 case1 + 5 case2 + 12 mcq + 5 mixed + 3 matches
+  const pct = Math.min(100, (attempted / total) * 100);
+  const prog = document.getElementById('prog');
+  if(prog) prog.style.width = pct + '%';
+}
+
+/* ============================================ */
+/* RESET / DOWNLOAD / TOAST                     */
+/* ============================================ */
+function resetAll(){
+  if(!confirm('Reset all answers and placements?')) return;
+  location.reload();
+}
+
+function downloadStudyPack(){
+  const a = document.createElement('a');
+  a.href = 'EP_Study_Guide.docx';
+  a.download = 'EP_Study_Guide.docx';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast('Downloading EP Study Guide…');
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  if(!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window._toast);
+  window._toast = setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+/* ============================================ */
+/* PROGRESS ON SCROLL                           */
+/* ============================================ */
+window.addEventListener('scroll', () => {
+  /* keep progress responsive on scroll only when on a long module */
+  /* the refreshSummary() calls handle the score-driven progress */
+}, { passive: true });
+
+/* Initialise summary on load */
+window.addEventListener('load', () => {
+  refreshSummary();
+});
+</script>
+
+</body>
+</html>
